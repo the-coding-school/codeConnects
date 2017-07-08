@@ -5,16 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
-var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/code-connects');
+db.on('error', console.error.bind(console, 'connection error:'));
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,9 +41,14 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+app.use(function(req, res, next){
+    req.db = db;
+    next();
+})
+
 app.use('/', index);
 app.use('/users', users);
-
+var auth = require('./routes/auth.js')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,6 +67,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
