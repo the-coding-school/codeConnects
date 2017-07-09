@@ -37,8 +37,7 @@ node_modules/
 jspm_packages/
 
 #data directories
-data/diagnostic.data/
-data/journal/
+data/
 
 # Typescript v1 declaration files
 typings/
