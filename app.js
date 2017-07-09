@@ -48,6 +48,7 @@ app.use(function(req, res, next){
 
 app.use('/', index);
 app.use('/users', users);
+var auth = require('./routes/auth')(app, passport);
 
 
 // catch 404 and forward to error handler
