@@ -18,13 +18,6 @@ mongoose.connection.on('connected', function(){
     console.log("successfully connected!");
 })
 
-// import entire SDK
-// var AWS = require('aws-sdk');
-// // import AWS object without services
-// var AWS = require('aws-sdk/global');
-// // import individual service
-// var S3 = require('aws-sdk/clients/s3');
-
 require('./config/passport')(passport);
 
 var index = require('./routes/index');
