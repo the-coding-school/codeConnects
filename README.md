@@ -5,7 +5,7 @@ To get started from your command line:
 -  Clone this repository: git clone https://github.com/mindip/codeConnects.git
 -  cd code-connects
 -  npm install
--  npm start
+-  nodemon
 
 This will likely fail unless you have done the following:
 
