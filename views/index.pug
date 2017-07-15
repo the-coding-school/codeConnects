@@ -1,5 +1,11 @@
-extends layout
+extends ../node_modules/pug-bootstrap/_bootstrap
+block body
+    div.container
+        div.jumbotron.text-center
+            h1 Node Authentication
 
-block content
-  h1= title
-  p Welcome to #{title}
+            p Login or Register with
+
+            a(href='/login' class='btn btn-default') Local Login
+            a(href='/signup' class='btn btn-default') Local Signup
+        </div>

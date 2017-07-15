@@ -9,9 +9,23 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
 var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/code-connects');
-db.on('error', console.error.bind(console, 'connection error:'));
+var mongoose = require('mongoose');
+var db = mongoose.connect('localhost:27017/code-connects', function(err) {
+    if (err) throw err;
+});
+
+mongoose.connection.on('connected', function(){
+    console.log("successfully connected!");
+})
+
+// import entire SDK
+// var AWS = require('aws-sdk');
+// // import AWS object without services
+// var AWS = require('aws-sdk/global');
+// // import individual service
+// var S3 = require('aws-sdk/clients/s3');
+
+require('./config/passport')(passport);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -48,7 +62,8 @@ app.use(function(req, res, next){
 
 app.use('/', index);
 app.use('/users', users);
-var auth = require('./routes/auth.js')(app, passport);
+var auth = require('./routes/auth')(app, passport);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -67,5 +82,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

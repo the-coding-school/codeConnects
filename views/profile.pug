@@ -1,0 +1,24 @@
+extends ../node_modules/pug-bootstrap/_bootstrap
+block body
+    div.container
+
+        div.page-header.text-center
+            h1 Profile Page
+            a(href='/logout' class='btn btn-default btn-sm') Logout
+
+
+        div.row
+
+            <!-- LOCAL INFORMATION -->
+            div.col-sm-6
+                div.well.container
+                    h3 Local
+                    p
+                    strong id
+                    |: #{user._id}
+                    br
+                    strong email
+                    |: #{user.local.email}
+                    br
+                    strong password
+                    |: #{user.local.password}

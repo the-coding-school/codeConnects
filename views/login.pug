@@ -1,4 +1,29 @@
-extend layout
-block content
-        h1.
-            Log in
+extends ../node_modules/pug-bootstrap/_bootstrap
+block body
+    div.container
+
+    div.col-sm-6.col-sm-offset-3
+
+        h1 Login
+
+        <!-- show any messages that come back with authentication -->
+        if message.length > 0
+            div.alert.alert-danger #{message}
+
+        <!-- LOGIN FORM -->
+        form(action="/login" method="post")
+            div.form-group
+                label(for='email') Email
+                input#email.form-control(type='email', placeholder='name@email.com' name='email')
+            div.form-group
+                label(for='pw') Password
+                input#pw.form-control(type='password' name='password')
+
+            button.btn.btn-warning.btn-lg(type='submit') Login
+
+        hr
+
+        p Need an account? 
+            a(href="/signup") Signup
+        p Or go 
+            a(href="/") home.

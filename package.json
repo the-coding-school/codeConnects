@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "aws-sdk": "^2.82.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.17.1",
     "connect-flash": "^0.1.1",
@@ -14,13 +15,14 @@
     "express": "~4.15.2",
     "express-session": "^1.15.3",
     "method-override": "^2.3.9",
+    "mongoose": "^4.11.3",
     "morgan": "~1.8.1",
-    "monk": "6.0.1",
     "node-sass-middleware": "0.9.8",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "pug": "~2.0.0-beta11",
+    "pug-bootstrap": "0.0.15",
     "serve-favicon": "~2.4.2"
   }
 }
