@@ -41,7 +41,7 @@ userModel.prototype.generateHash = function(password) {
 
 // checking if password is valid
 userModel.prototype.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.attrs.local.password);
 };
 
 // create the model for users and expose it to our app
