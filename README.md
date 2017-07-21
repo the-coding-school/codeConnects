@@ -7,11 +7,7 @@ To get started from your command line:
 -  npm install
 -  nodemon
 
-This will likely fail unless you have done the following:
-
-1. install npm
-2. Download/Install Mongodb
-3. create/connect to a database called codeconnects
+See Part 2 for more detailed instructions in case of failure.
 
 If you are backend and find that you're unfamiliar with any of the technologies in the stack,
 please look up some tutorials and read documentation for them (mongodb, express, node).
