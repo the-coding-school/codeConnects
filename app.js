@@ -9,14 +9,11 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
 var mongo = require('mongodb');
-var mongoose = require('mongoose');
-var db = mongoose.connect('localhost:27017/code-connects', function(err) {
-    if (err) throw err;
-});
+var dynogels = require('dynogels');
 
-mongoose.connection.on('connected', function(){
-    console.log("successfully connected!");
-})
+dynogels.AWS.config.loadFromPath('./config/credentials.json')
+
+dynogels.AWS.config.update({region: "us-west-2", endpoint: "https://dynamodb.us-west-2.amazonaws.com"})
 
 require('./config/passport')(passport);
 
@@ -47,11 +44,6 @@ app.use(session({ secret: 'codeconnectssupersecretsessionpass' }));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-
-app.use(function(req, res, next){
-    req.db = db;
-    next();
-})
 
 app.use('/', index);
 app.use('/users', users);
