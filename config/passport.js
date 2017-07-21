@@ -17,12 +17,12 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user.email);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        User.get(id, function(err, user) {
             done(err, user);
         });
     });
@@ -63,13 +63,13 @@ module.exports = function(passport) {
 
                 // set the user's local credentials
                 newUser.set({email: email ,local : { email : email, password : newUser.generateHash(password)}});
-                console.log(newUser);
-
+                var attributes = newUser.attrs;
                 // // save the user
                 newUser.save(function(err) {
                     if (err)
                         throw err;
-                    return done(null, newUser);
+                    return done(null, attributes);
+
                 });
 
             }
@@ -98,7 +98,7 @@ module.exports = function(passport) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'local.email' :  email }, function(err, user) {
+        User.get( email, function(err, user) {
             // if there are any errors, return the error before anything else
             if (err)
                 return done(err);
