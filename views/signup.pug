@@ -19,9 +19,11 @@ block body
                 label(for='pw') Password
                 input#pw.form-control(type='password' name='password')
             div.form-group
-                +radio("Teacher", "Role", "Teacher")
-                +radio("Student", "Role", "Student")
-            button.btn.btn-warning.btn-lg(type='submit') SignUp
+                input(type='radio', name="role", value=1, required = true)
+                |Teacher
+                input(type='radio', name="role", value=0, required = true)
+                |Student
+            button.btn.btn-warning.btn-lg(type='submit') Apply
 
         <hr>
 

@@ -44,6 +44,14 @@ module.exports = function(passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
+        var role = null
+        if(req.body.role == 1){
+            role = 'teacher'
+        }
+        if(req.body.role == 0){
+            role = 'student'
+        }
+        console.log(role);
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
@@ -62,7 +70,8 @@ module.exports = function(passport) {
                 var newUser            = new User();
                 var credentials = {
                                     email       : email ,
-                                    approved    : 0,
+                                    approved    : false,
+                                    role        : role,
                                     local       : {
                                         email : email,
                                         password : newUser.generateHash(password)
