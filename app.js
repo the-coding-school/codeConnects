@@ -8,7 +8,6 @@ var sassMiddleware = require('node-sass-middleware');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
-var mongo = require('mongodb');
 var dynogels = require('dynogels');
 
 dynogels.AWS.config.loadFromPath('./config/credentials.json')
