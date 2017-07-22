@@ -6,7 +6,6 @@ module.exports = function(app, passport) {
     // =====================================
     // show the login form
     app.get('/login', function(req, res) {
-
         // render the page and pass in any flash data if it exists
         res.render('login.pug', { message: req.flash('loginMessage') });
     });
@@ -18,7 +17,7 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-    
+
     // =====================================
     // SIGNUP ==============================
     // =====================================

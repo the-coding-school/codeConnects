@@ -39,7 +39,12 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: 'codeconnectssupersecretsessionpass' }));
+app.use(session({
+    secret: 'codeconnectssupersecretsessionpass',
+    resave: true,
+    saveUninitialized: true
+}));
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
