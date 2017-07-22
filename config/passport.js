@@ -60,9 +60,16 @@ module.exports = function(passport) {
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
-
+                var credentials = {
+                                    email       : email ,
+                                    approved    : 0,
+                                    local       : {
+                                        email : email,
+                                        password : newUser.generateHash(password)
+                                    }
+                                };
                 // set the user's local credentials
-                newUser.set({email: email ,local : { email : email, password : newUser.generateHash(password)}});
+                newUser.set(credentials);
                 var attributes = newUser.attrs;
                 // // save the user
                 newUser.save(function(err) {

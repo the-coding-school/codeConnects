@@ -12,6 +12,8 @@ var userModel = dynogels.define('userModel', {
     
     schema : {
         email            : Joi.string(),
+        role             : Joi.string(),
+        approved         : Joi.boolean(),
         local            : Joi.object().keys({
             email        : Joi.string().email(),
             password     : Joi.string(),
@@ -27,7 +29,20 @@ var userModel = dynogels.define('userModel', {
             token        : Joi.string(),
             email        : Joi.string().email(),
             name         : Joi.string()
-        }
+        },
+        application      : Joi.object.keys({
+            student         : Joi.object.keys({
+
+            })
+        }),
+        profile          : Joi.string().object.keys({
+            teacher         : Joi.object.keys({
+
+            }),
+            student         : Joi.object.keys({
+                
+            })
+        })
     },
 
     tableName: 'Users'
