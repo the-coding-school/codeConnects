@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run devstart",
-    "devstart": "DEBUG=codeConnects:* npm install && nodemon ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
