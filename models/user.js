@@ -30,14 +30,9 @@ var userModel = dynogels.define('userModel', {
             email        : Joi.string().email(),
             name         : Joi.string()
         },
-        application      : Joi.object().keys({
-            student         : Joi.object().keys({
-                
-            })
-        }),
         profile          : Joi.object().keys({
             teacher         : Joi.object().keys({
-
+                
             }),
             student         : Joi.object().keys({
                 
