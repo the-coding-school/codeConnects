@@ -32,7 +32,7 @@ var userModel = dynogels.define('userModel', {
         },
         profile          : Joi.object().keys({
             teacher         : Joi.object().keys({
-                
+                name            : "dip"
             }),
             student         : Joi.object().keys({
                 

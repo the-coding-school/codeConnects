@@ -1,1 +1,34 @@
-extends profile
+extends ../node_modules/pug-bootstrap/_bootstrap
+block body
+    div.container
+        div.page-header
+            h1 Profile Page
+            a(href='/logout' class='btn btn-default btn-sm') Logout
+
+        div.row.text-left
+            <!-- LOCAL INFORMATION -->
+            div.col-sm-6
+                h3 Your Bio
+                div.well.container
+                    p
+                    strong First Name
+                    |: #{user.profile.teacher.name}
+                    br
+                    strong Role
+                    |: #{user.role}
+
+    div.col-sm-6.col-sm-offset-3
+        <!-- LOGIN FORM -->
+        form(action="/signup" method="post")
+            div.form-group
+                label(for='email') Email
+                input#email.form-control(type='email', placeholder='name@email.com' name='email')
+            div.form-group
+                label(for='pw') Password
+                input#pw.form-control(type='password' name='password')
+            div.form-group
+                input(type='radio', name="role", value=1, required = true)
+                |Teacher
+                input(type='radio', name="role", value=0, required = true)
+                |Student
+            button.btn.btn-warning.btn-lg(type='submit') Save
