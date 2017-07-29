@@ -18,6 +18,9 @@ var userModel = dynogels.define('userModel', {
             email        : Joi.string().email(),
             password     : Joi.string(),
         }),
+        profile          : Joi.object().keys({
+            teacher         : Joi.string()
+        }),
         facebook         : {
             id           : Joi.string(),
             token        : Joi.string(),
@@ -29,15 +32,7 @@ var userModel = dynogels.define('userModel', {
             token        : Joi.string(),
             email        : Joi.string().email(),
             name         : Joi.string()
-        },
-        profile          : Joi.object().keys({
-            teacher         : Joi.object().keys({
-                name            : "dip"
-            }),
-            student         : Joi.object().keys({
-                
-            })
-        })
+        }
     },
 
     tableName: 'Users'

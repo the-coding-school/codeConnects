@@ -11,15 +11,14 @@ block body
                 h3 Your Bio
                 div.well.container
                     p
-                    strong First Name
-                    |: #{user.profile.teacher.name}
+                    strong Email
+                    |: #{user.local.email}
                     br
                     strong Role
                     |: #{user.role}
 
     div.col-sm-6.col-sm-offset-3
-        <!-- LOGIN FORM -->
-        form(action="/signup" method="post")
+        form(action="/profile" method="post")
             div.form-group
                 label(for='email') Email
                 input#email.form-control(type='email', placeholder='name@email.com' name='email')

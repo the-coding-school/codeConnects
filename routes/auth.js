@@ -42,16 +42,28 @@ module.exports = function(app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res) {
+        var attr = req.user.attrs;
         if(req.user.attrs.role == "student"){
-            res.render('student-bio.pug', {
+            res.render('student-bio', {
                 user : req.user.attrs // get the user out of session and pass to template
             });
         }
-        if(req.user.attrs.role == "teacher"){
-             res.render('teacher-bio.pug', {
+        if(attr.role == "teacher"){
+             if(attr.approved == true){
+                console.log(attr.approved);
+                res.render('student-bio', {
                  user : req.user.attrs // get the user out of session and pass to template
             });
+            }
+            else{
+                res.render('teacher-app')
+            }
         }
+    });
+
+    app.post('/teacher-apply', isLoggedIn, function(req, res){
+        var attr = req.user.attrs;
+        console.log(attr.email);
     });
 
     // =====================================
