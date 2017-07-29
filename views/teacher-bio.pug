@@ -1,33 +1,22 @@
 extends ../node_modules/pug-bootstrap/_bootstrap
+
 block body
     div.container
-        div.page-header
-            h1 Profile Page
-            a(href='/logout' class='btn btn-default btn-sm') Logout
-
-        div.row.text-left
-            <!-- LOCAL INFORMATION -->
-            div.col-sm-6
-                h3 Your Bio
-                div.well.container
-                    p
-                    strong Email
-                    |: #{user.local.email}
-                    br
-                    strong Role
-                    |: #{user.role}
 
     div.col-sm-6.col-sm-offset-3
-        form(action="/profile" method="post")
+
+        h1 Application
+
+        <!-- LOGIN FORM -->
+        form(action="/teacher-apply" method="post")
             div.form-group
-                label(for='email') Email
-                input#email.form-control(type='email', placeholder='name@email.com' name='email')
+                label(for='name') First Name
+                input.form-control(type='text', placeholder='Arya' name='name')
             div.form-group
-                label(for='pw') Password
-                input#pw.form-control(type='password' name='password')
+                label(for='employer') Current Institute (College / Place of Employment)
+                input.form-control(type='text', placeholder='e.g. The Coding School' name='employer')
             div.form-group
-                input(type='radio', name="role", value=1, required = true)
-                |Teacher
-                input(type='radio', name="role", value=0, required = true)
-                |Student
-            button.btn.btn-warning.btn-lg(type='submit') Save
+                label(for='bio') Tell us about why yourself (projects, ares of focus, internships)
+                br
+                textarea.col-md-12(required)
+        button.btn.btn-warning.btn-lg(type='submit') Submit Profile

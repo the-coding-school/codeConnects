@@ -1,0 +1,39 @@
+
+extends ../node_modules/pug-bootstrap/_bootstrap
+
+block body
+    div.container
+
+    div.col-sm-6.col-sm-offset-3
+
+        h1 Application
+
+        <!-- LOGIN FORM -->
+        form(action="/teacher-apply" method="post")
+            div.form-group
+                label(for='name') Full Name (first last)
+                input.form-control(type='text', placeholder='e.g. Marie Curie' name='name')
+            div.form-group
+                label(for='phone') Phone Number
+                input.form-control(type='tel', placeholder='e.g. (012)-345-6789' name='phone')
+            div.form-group
+                label(for='employer') Current Institute (College / Place of Employment)
+                input.form-control(type='text', placeholder='e.g. The Coding School' name='employer')
+            div.form-group
+                label(for='year') Graduation Date (Expected or Past)
+                input.form-control(type='date' name='graduation')
+            div.form-group
+                label(for='pay') Hours
+                    br
+                    | Volunteer Hours/Week
+                    input.form-control(type='number', name="pay", required = true)
+                    | Paid Hours/Week
+                    input.form-control(type='number', name="pay", required = true)
+            div.form-group
+                label(for='bio') Why are you interested in teaching with TCS?
+                br
+                textarea.col-md-12(required)
+            div.form-group
+                label(for='reference')
+                input.form-control(type='text', placeholder='')
+        button.btn.btn-warning.btn-lg(type='submit') Submit Application
