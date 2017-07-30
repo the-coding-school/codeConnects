@@ -50,8 +50,7 @@ module.exports = function(app, passport) {
         }
         if(attr.role == "teacher"){
              if(attr.approved == true){
-                console.log(attr.approved);
-                res.render('student-bio', {
+                res.render('teacher-bio', {
                  user : req.user.attrs // get the user out of session and pass to template
             });
             }
@@ -61,9 +60,15 @@ module.exports = function(app, passport) {
         }
     });
 
-    app.post('/teacher-apply', isLoggedIn, function(req, res){
-        var attr = req.user.attrs;
-        console.log(attr.email);
+    app.post('/teacher-bio', isLoggedIn, function(req, res){
+        var user = req.user;
+        var form = req.body;
+        var bio = {
+            teacher: req.body
+        }
+        console.log(user.attrs);
+        user.set(bio);
+        user.save();
     });
 
     // =====================================

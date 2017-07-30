@@ -5,18 +5,18 @@ block body
 
     div.col-sm-6.col-sm-offset-3
 
-        h1 Application
+        h1 Please Keep Your Bio Up-to-Date
 
         <!-- LOGIN FORM -->
-        form(action="/teacher-apply" method="post")
+        form(action="/teacher-bio" method="post")
             div.form-group
                 label(for='name') First Name
-                input.form-control(type='text', placeholder='Arya' name='name')
+                input.form-control(type='text' placeholder='Arya' name='name')
             div.form-group
                 label(for='employer') Current Institute (College / Place of Employment)
-                input.form-control(type='text', placeholder='e.g. The Coding School' name='employer')
+                input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
             div.form-group
                 label(for='bio') Tell us about why yourself (projects, ares of focus, internships)
-                br
-                textarea.col-md-12(required)
-        button.btn.btn-warning.btn-lg(type='submit') Submit Profile
+                input.form-control(type='text' name='bio')
+
+            button.btn.btn-warning.btn-lg(type='submit') Submit Profile
