@@ -51,7 +51,6 @@ module.exports = function(passport) {
         if(req.body.role == 0){
             role = 'student'
         }
-        console.log(role);
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
