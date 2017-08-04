@@ -51,11 +51,12 @@ module.exports = function(app, passport) {
         if(attr.role == "teacher"){
              if(attr.approved == true){
                 res.render('teacher-bio', {
-                 user : req.user.attrs // get the user out of session and pass to template
+                 user       : req.user.attrs // get the user out of session and pass to template
             });
             }
             else{
-                res.render('teacher-app')
+                //redirect to index if they're not approved
+                res.redirect('/');
             }
         }
     });

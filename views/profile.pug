@@ -5,16 +5,3 @@ block body
         div.page-header.text-center
             h1 Profile Page
             a(href='/logout' class='btn btn-default btn-sm') Logout
-
-
-        div.row
-        h3 Your Bio
-            <!-- LOCAL INFORMATION -->
-            div.col-sm-6
-                div.well.container
-                    p
-                    strong email
-                    |: #{user.local.email}
-                    br
-                    strong Role
-                    |: #{user.role}
