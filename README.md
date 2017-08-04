@@ -4,6 +4,7 @@ To get started from your command line:
 
 -  Clone this repository: git clone git@github.com:the-coding-school/codeConnects.git
 -  cd codeConnects
+-  npm install
 -  npm start
 
 This should install all dependencies and start the project at localhost:3000 for you.
