@@ -44,9 +44,14 @@ module.exports = function(app, passport) {
     app.get('/profile', isLoggedIn, function(req, res) {
         var attr = req.user.attrs;
         if(req.user.attrs.role == "student"){
-            res.render('student-bio', {
+            if(attr.approved == true){
+                res.render('student-bio', {
                 user : req.user.attrs // get the user out of session and pass to template
             });
+            }
+            else{
+                res.redirect('/');
+            }
         }
         if(attr.role == "teacher"){
              if(attr.approved == true){
