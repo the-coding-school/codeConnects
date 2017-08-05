@@ -7,7 +7,7 @@ module.exports = function(app, passport) {
     // show the login form
     app.get('/login', function(req, res) {
         // render the page and pass in any flash data if it exists
-        res.render('login.pug', { message: req.flash('loginMessage') });
+        res.render('auth/login.pug', { message: req.flash('loginMessage') });
     });
 
     // process the login form
@@ -25,7 +25,7 @@ module.exports = function(app, passport) {
     app.get('/signup', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-        res.render('signup.pug', { message: req.flash('signupMessage') });
+        res.render('auth/signup.pug', { message: req.flash('signupMessage') });
     });
 
     // process the signup form
@@ -34,48 +34,6 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-
-    // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    // we will want this protected so you have to be logged in to visit
-    // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/profile', isLoggedIn, function(req, res) {
-        var attr = req.user.attrs;
-        if(req.user.attrs.role == "student"){
-            if(attr.approved == true){
-                res.render('student-bio', {
-                user : req.user.attrs // get the user out of session and pass to template
-            });
-            }
-            else{
-                res.redirect('/');
-            }
-        }
-        if(attr.role == "teacher"){
-             if(attr.approved == true){
-                res.render('teacher-bio', {
-                 user       : req.user.attrs // get the user out of session and pass to template
-            });
-            }
-            else{
-                //redirect to index if they're not approved
-                res.redirect('/');
-            }
-        }
-    });
-
-    app.post('/teacher-bio', isLoggedIn, function(req, res){
-        var user = req.user;
-        var form = req.body;
-        var bio = {
-            teacher: req.body
-        }
-        console.log(user.attrs);
-        user.set(bio);
-        user.save();
-    });
 
     // =====================================
     // LOGOUT ==============================

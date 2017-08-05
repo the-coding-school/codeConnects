@@ -52,6 +52,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/', index);
 app.use('/users', users);
 var auth = require('./routes/auth')(app, passport);
+var bio = require('./routes/bio')(app, passport);
 
 
 // catch 404 and forward to error handler
