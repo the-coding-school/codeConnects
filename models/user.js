@@ -9,7 +9,7 @@ var userModel = dynogels.define('userModel', {
     hashKey : 'email',
 
     timestamps : true,
-    
+
     schema : {
         email            : Joi.string(),
         role             : Joi.string(),
@@ -33,9 +33,18 @@ var userModel = dynogels.define('userModel', {
         teacher         : Joi.object().keys({
             name           : Joi.string(),
             employer       : Joi.string(),
-            bio            : Joi.string()           
+            bio            : Joi.string()
         }),
         student         : Joi.object().keys({
+            name            : Joi.string(),
+            preferences     : Joi.object().keys({
+                language        : Joi.string(),
+                gender          : Joi.string(),
+                ethnicity       : Joi.string(),
+                city            : Joi.string(),
+                state           : Joi.string(),
+                focus           : Joi.string()
+            })
         })
     },
 

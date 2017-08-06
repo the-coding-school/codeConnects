@@ -1,1 +1,84 @@
-extends ../profile
+extends ../../node_modules/pug-bootstrap/_bootstrap
+
+mixin myDropdown(name, caption, items)
+    .dropdown
+        button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", id='btn-'+name)
+            = caption
+            | &nbsp;
+            span.caret
+        ul.dropdown-menu()
+            for item in items
+                li(class='option-'+name)
+                    a(tabindex="-1", href='#')= item
+        input(type='hidden', name=name)
+        
+        script.
+            $(document).ready(function () {
+                $('.option-#{name}').click(function(event) {
+                    var selectedVal = event.target.text; 
+                    var ddCaption = selectedVal + "&nbsp;<span class='caret'></span>" ;
+                    $('#btn-#{name}').html(ddCaption);
+                    $('input[name="#{name}"]').val(selectedVal);
+                });
+            });
+
+block body
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+
+    div.container
+        div.col-sm-6.col-sm-offset-3
+            form(action="/student-bio" method="post")
+                h1 Update Bio
+                div.form-group
+                    label(for='name') Your name
+                    input.form-control(type='text' placeholder='e.g. Firstname M. Lastname' name='name')
+                
+                h1(style='margin-top:50px') Update Tutor Preferences
+                -
+                 var languageOptions = [
+                     'English', 
+                     'Spanish', 
+                     'Chinese'
+                 ];
+                 var ethnicityOptions = [
+                     'White', 
+                     'Hispanic/Latino', 
+                     'Black or African-American', 
+                     'Asian', 
+                     'American Indian or Alaska Native',
+                     'Middle Eastern or North African',
+                     'Native Hawaiian or other Pacific Islander'
+                 ];
+                 var focusOptions = [
+                     'Artificial Intelligence', 
+                     'Robotics', 
+                     'Web Technologies'
+                 ];
+                 
+                div.form-group
+                    label(for='language') Language
+                    +myDropdown('language', 'Select below', languageOptions)
+                div.form-group
+                    label(for='gender') Gender
+                    div.form-check-inline
+                        label.form-check-label(style='font-weight:normal')
+                            input.form-check-input(type='radio' value='M' name='gender') 
+                            |&nbsp;Male
+                            |&nbsp;
+                        label.form-check-label(style='font-weight:normal')
+                            input.form-check-input(type='radio' value='F' name='gender')
+                            |&nbsp;Female
+                div.form-group
+                    label(for='ethnicity') Ethnicity
+                    +myDropdown('ethnicity', 'Select below', ethnicityOptions)
+                div.form-group
+                    label(for='state') Location - State
+                    input.form-control(type='text' placeholder='e.g. California (or CA)' name='state')
+                div.form-group
+                    label(for='city') Location - City
+                    input.form-control(type='text' placeholder='e.g. Los Angeles' name='city')
+                div.form-group
+                    label(for='focus') Area of interest
+                    +myDropdown('focus', 'Select below', focusOptions)
+
+                button.btn.btn-warning.btn-lg(type='submit') Submit Profile
