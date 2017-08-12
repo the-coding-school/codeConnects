@@ -42,7 +42,6 @@ module.exports = function(passport) {
     function(req, email, password, done) {
 
         // asynchronous
-        // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
         var role = null
         if(req.body.role == 1){

@@ -17,7 +17,6 @@ dynogels.AWS.config.update({region: "us-west-2", endpoint: "https://dynamodb.us-
 require('./config/passport')(passport);
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -50,10 +49,9 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use('/', index);
-app.use('/users', users);
 var auth = require('./routes/auth')(app, passport);
 var bio = require('./routes/bio')(app, passport);
-
+var users = require('./routes/users')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
