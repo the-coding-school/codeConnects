@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
             }
             if(attributes.role == "teacher"){
                 /* function render_teacher*/
-                if(attr.approved == true){
+                if(attributes.approved == true){
                     res.render('teacher/teacher-bio', {
                     user       : req.user.attrs // get the user out of session and pass to template
                 });
