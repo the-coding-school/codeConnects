@@ -8,13 +8,18 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.17.1",
+    "chai": "^4.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
+    "deep-equal": "^1.0.1",
     "dynogels": "^8.0.1",
     "express": "~4.15.2",
     "express-session": "^1.15.3",
+    "filter-object": "^3.0.0",
+    "joi": "^10.6.0",
     "method-override": "^2.3.9",
+    "mocha": "^3.5.0",
     "morgan": "~1.8.1",
     "node": "0.0.0",
     "node-sass-middleware": "0.9.8",
@@ -24,5 +29,10 @@
     "pug": "~2.0.0-beta11",
     "pug-bootstrap": "0.0.15",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "should": "^11.2.1",
+    "supertest": "^3.0.0",
+    "zombie": "^5.0.7"
   }
 }
