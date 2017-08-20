@@ -126,6 +126,10 @@ module.exports = function(passport) {
             if (!user.validPassword(password))
                 return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
+            // if the user is unapproved, return the message
+            if (user.attrs.approved == false)
+                return done(null,false, req.flash('loginMessage', 'Uh oh! You have not been approved yet.'));
+
             // all is well, return successful user
             var attributes = user.attrs;
             return done(null, attributes);
