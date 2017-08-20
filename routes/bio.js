@@ -8,15 +8,12 @@ module.exports = function(app, passport) {
             var attributes = req.user.attrs;
 
             if(attributes.role == "student"){
-                
-                
+                render_student(res, attributes);
             }
             
             if(attributes.role == "teacher"){
-                
+                render_teacher(res, attributes);
             }
-            
-
         });
 
         app.post('/teacher-bio', isLoggedIn, function(req, res){
@@ -43,32 +40,26 @@ function isLoggedIn(req, res, next) {
 function render_student(res, attr){
     
     /* function render_student*/
-        if(attributes.approved == true){
+        if(attr.approved == true){
             res.render('student/student-bio', {
-            user : req.user.attrs // get the user out of session and pass to template
+            user : attr // get the user out of session and pass to template
         });
         }
         else{
             res.redirect('/');
         }
-    /*-----*/
-    
-    
 }
 
 function render_teacher(res, attr){
     
     /* function render_teacher*/
-        if(attributes.approved == true){
+        if(attr.approved == true){
             res.render('teacher/teacher-bio', {
-            user       : req.user.attrs // get the user out of session and pass to template
+            user       : attr // get the user out of session and pass to template
         });
         }
         else{
             //redirect to index if they're not approved
             res.redirect('/');
         }
-        /*-----*/
-    
-    
 }
