@@ -1,3 +1,8 @@
+var dynogels = require('dynogels');
+var User            = require('../models/user');
+var Teacher            = require('../models/teacher');
+var Student            = require('../models/student');
+
 // app/routes.js
 module.exports = function(app, passport) {
 
@@ -11,7 +16,7 @@ module.exports = function(app, passport) {
     });
 
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
+    app.post('/login', loginStoreCookie, passport.authenticate('local-login', {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
@@ -29,7 +34,7 @@ module.exports = function(app, passport) {
     });
 
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.post('/signup', signupStoreCookie, passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
@@ -38,7 +43,7 @@ module.exports = function(app, passport) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function(req, res) {
+    app.get('/logout', function(req, res, next) {
         req.logout();
         res.redirect('/');
     });
@@ -53,4 +58,41 @@ function isLoggedIn(req, res, next) {
 
     // if they aren't redirect them to the home page
     res.redirect('/');
+}
+
+function loginStoreCookie(req, res, next){
+    var email = req.body.email;
+
+    User.get( email, function(err, user){
+        if (err){
+            console.log(err);
+            return done(err);
+        }
+        
+        if(user){
+            res.clearCookie('user');
+            var session = {
+                'email'         : email,
+                'teacher_role'  : user.attrs.teacher_role
+            };
+            res.cookie('user', session);
+            return next();
+        }
+    });
+    }
+
+function signupStoreCookie(req, res, next){
+    var email        = req.body.email;
+    var teacher_role = (req.body.role == 1 ? true : false);
+
+    var session = {
+            'email'         : email,
+            'teacher_role'  : teacher_role
+    }
+
+    res.clearCookie('user');
+    res.cookie('user', session, {
+        expires: new Date(Date.now() + 3000000)
+    })
+    return next();
 }

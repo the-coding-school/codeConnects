@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 var passport = require('passport');
@@ -39,10 +40,9 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-    secret: 'codeconnectssupersecretsessionpass',
-    resave: true,
-    saveUninitialized: true
+app.use(cookieParser());
+app.use(cookieSession({
+    secret: 'codeconnectssupersecretsessionpass'
 }));
 
 app.use(passport.initialize());

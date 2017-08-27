@@ -1,5 +1,7 @@
 // config/passport.js
 
+var Teacher            = require('../models/teacher');
+var Student            = require('../models/student');
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
 
@@ -44,14 +46,7 @@ module.exports = function(passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
-        var role = null
-        if(req.body.role == 1){
-            role = 'teacher'
-        }
-        if(req.body.role == 0){
-            role = 'student'
-        }
-
+        
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
         User.get( email,  function(err, user) {
@@ -63,30 +58,7 @@ module.exports = function(passport) {
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
-
-                // if there is no user with that email
-                // create the user
-                var newUser            = new User();
-                var credentials = {
-                                    email       : email ,
-                                    approved    : false,
-                                    role        : role,
-                                    local       : {
-                                        email : email,
-                                        password : newUser.generateHash(password)
-                                    }
-                                };
-                // set the user's local credentials
-                newUser.set(credentials);
-                var attributes = newUser.attrs;
-                // // save the user
-                newUser.save(function(err) {
-                    if (err)
-                        throw err;
-                    return done(null, attributes);
-
-                });
-
+                createUser(req, email, password, done);
             }
 
         });
@@ -138,3 +110,61 @@ module.exports = function(passport) {
     }));
 
 };
+
+function createUser(req, email, password, done){
+    var teacher_role = null
+    teacher_role = (req.body.role == 1 ? true : false);
+
+    // if there is no user with that email
+    // create the user
+    var newUser            = new User();
+    var credentials = {
+        email           : email ,
+        password        : newUser.generateHash(password),
+        teacher_role    :teacher_role,
+        approved        : false
+    }
+    // set the user's local credentials
+    newUser.set(credentials);
+    var attributes = newUser.attrs;
+    
+    // save the user
+    newUser.save(function(err) {
+        if (err)
+            throw err;
+        if(teacher_role){
+            createTeacher(email, attributes, done);
+        }
+        else{
+            createStudent(email, attributes, done);
+        }
+    });
+}
+
+function createTeacher(email, attributes, done){
+    var newTeacher      = new Teacher();
+    var credentials = {
+        email       : email,
+    }
+    newTeacher.set(credentials);
+
+    newTeacher.save(function(err){
+        if(err)
+            throw err;
+        return done(null, attributes);
+    })
+}
+
+function createStudent(email, attributes, done){
+    var newStudent      = new Student();
+    var credentials = {
+        email       : email,
+    }
+    newStudent.set(credentials);
+
+    newStudent.save(function(err){
+        if(err)
+            throw err;
+        return done(null, attributes);
+    })
+}

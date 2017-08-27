@@ -10,8 +10,8 @@ block body
         <!-- LOGIN FORM -->
         form(action="/teacher-bio" method="post")
             div.form-group
-                label(for='name') First Name
-                input.form-control(type='text' placeholder='Arya' name='name')
+                label(for='first_name') First Name
+                input.form-control(type='text' placeholder='Arya' name='first_name')
             div.form-group
                 label(for='employer') Current Institute (College / Place of Employment)
                 input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
@@ -20,3 +20,5 @@ block body
                 input.form-control(type='text' name='bio')
 
             button.btn.btn-warning.btn-lg(type='submit') Submit Profile
+    
+    a(href='/logout' class='btn btn-default btn-sm') Logout

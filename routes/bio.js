@@ -1,3 +1,7 @@
+
+var Teacher            = require('../models/teacher');
+var Student            = require('../models/student');
+
 module.exports = function(app, passport) {
     // =====================================
         // PROFILE SECTION =====================
@@ -7,23 +11,16 @@ module.exports = function(app, passport) {
         app.get('/profile', isLoggedIn, function(req, res) {
             var attributes = req.user.attrs;
 
-            if(attributes.role == "student"){
+            if(attributes.teacher_role == false){
                 render_student(res, attributes);
             }
             
-            if(attributes.role == "teacher"){
+            if(attributes.teacher_role == true){
                 render_teacher(res, attributes);
             }
         });
 
-        app.post('/teacher-bio', isLoggedIn, function(req, res){
-            var user = req.user;
-            var form = req.body;
-            var bio = {
-                teacher: req.body
-            }
-            user.set(bio);
-            user.save();
+        app.post('/teacher-bio', isLoggedIn, submitForm, function(req, res){
         });
 };
 
@@ -62,4 +59,21 @@ function render_teacher(res, attr){
             //redirect to index if they're not approved
             res.redirect('/');
         }
+}
+
+function submitForm(req, res, next){
+    var form = req.body;
+    var email = req.cookies.user.email;
+
+    Teacher.get(email, function(err, teacher){
+        if(err)
+            return done(err);
+
+        teacher.set(form);
+        teacher.save(function(err) {
+            if(err)
+                throw err;
+            return next();
+        });
+    });
 }
