@@ -1,14 +1,13 @@
 var express = require('express');
 
-var User    = require('../models/user');
+var Teacher     = require('../models/teacher');
 
 module.exports = function(app, passport) {
         /* GET users listing. */
         app.get('/teacherlist', function(req, res) {
 
           var list = [];
-          User.scan()
-          .where('role').equals('teacher')
+          Teacher.scan()
           .where('approved').equals(true)
           .exec(function(err, teachers){
             for(index in teachers.Items){
