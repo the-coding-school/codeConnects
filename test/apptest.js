@@ -1,36 +1,73 @@
 var supertest = require("supertest");
-var should = require("should");
-//This agent refers to the PORT where the program is running
+var should = require("chai").should();
 var server = supertest.agent("http://localhost:3000");
-//start unit testing
-describe("Unit test for correct ports", function(done)
+
+describe("testing all routes", function()
 {
-	it("should return home page",function(done)
-	{
-		// calling home page api
-    		server
-    		.get("/")
-    		.expect("Content-type",/json/)
-    		.expect(200) // THis is HTTP response
- 		.end(function(err,res)
-		{
-      		// HTTP status should be 200
-      		res.status.should.equal(200);
-      		// Error key should be false.
-      		//res.body.error.should.equal(false);
-      		done();
+	// root GET call
+	it("returns home page", function(done) {
+		server.get("/")
+		.expect("Content-type",/text\/html/)
+ 		.end(function(err, res) {
+			if (err) return done(err)
+  			res.status.should.equal(200);
+  			done();
 		});
-    	});
-		
-	it("Error should return 404",function(done)
-	{
-    		server
-    		.get("/random")
-    		.expect(404)
-    		.end(function(err,res)
-		{
-      		res.status.should.equal(404);
-      		done();
+	});
+
+	it("redirects to profile with valid login credentials", function(done) {
+		server.post("/login")
+		.send('email=approved_teacher@tcs.com')
+		.send('password=test')
+		.expect("Content-type",/text/)
+ 		.end(function(err, res) {
+			if (err) return done(err)
+			res.status.should.equal(302);
+			res.header.location.should.eql('/profile')
+			done();
 		});
-    	});
+	});
+
+	it("redirects back to login with invalid login credentials", function(done) {
+		server.post("/login")
+		.send('email=teacher@gmail.com')
+		.send('password=badpass')
+		.expect("Content-type",/text/)
+ 		.end(function(err, res) {
+			if (err) return done(err)
+			res.status.should.equal(302);
+			res.header.location.should.eql('/login')
+			done();
+		});
+	});
+
+	it("redirects to homepage for successful signup", function(done) {
+		server.post("/signup")
+		.send('email=someone@email.com')
+		.send('password=somepassword')
+		.send('role=1')
+		.expect("Content-type", /text/)
+ 		.end(function(err, res) {
+			if (err) return done(err)
+			res.status.should.equal(302);
+			res.header.location.should.eql('/profile')
+			done();
+		});
+	});
+
+	it.only("redirects back to signup if email exists", function(done) {
+		server.post("/signup")
+		.send('email=approved_teacher@tcs.com')
+		.send('password=test')
+		.send('role=1')
+		.expect("Content-type", /text/)
+		.expect("Location", /\/signup/)
+ 		.end(function(err, res) {
+			if (err) return done(err)
+			console.log(res.body)
+			res.text.should.match(/That email is already taken./)
+			done();
+		});
+	});
+
 });
