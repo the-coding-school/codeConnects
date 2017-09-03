@@ -88,7 +88,7 @@ function submitForm(req, res, next){
     var form = req.body;
     var user = req.cookies.user;
     var email = user.email;
-    var teacher_flag = user.teacher_flag;
+    var teacher_flag = user.teacher_role;
 
     if(teacher_flag === true){
         Teacher.get(email, function(err, teacher){
@@ -111,7 +111,7 @@ function submitForm(req, res, next){
     }
 
     else{
-        Student.get(email, function(err, teacher){
+        Student.get(email, function(err, student){
             if(err)
                 return done(err);
     
@@ -122,8 +122,8 @@ function submitForm(req, res, next){
                 }
             }
             console.log(form);
-            teacher.set(form);
-            teacher.save(function(err) {
+            student.set(form);
+            student.save(function(err) {
                 if(err)
                     throw err;
                 return next();

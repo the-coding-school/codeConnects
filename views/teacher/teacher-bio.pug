@@ -1,10 +1,30 @@
 extends ../../node_modules/pug-bootstrap/_bootstrap
-mixin listItem(key, value)
-    ul #{key} : #{value}
-mixin capitalize(word, value)
-    ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
 
 block body
+    include ../mixins/util
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    -
+        var ethnicityOptions = [
+            'White', 
+            'Hispanic/Latino', 
+            'Black or African-American', 
+            'Asian', 
+            'American Indian or Alaska Native',
+            'Middle Eastern or North African',
+            'Native Hawaiian or other Pacific Islander',
+            'Not Listed'
+        ];
+        var focusOptions = [
+            'Artificial Intelligence', 
+            'Robotics', 
+            'Web Technologies'
+        ];
+        var genderOptions = [
+            'Female',
+            'Male',
+            'Non-binary'
+        ];
+
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
         div.col-sm-5.col-sm-offset-1
@@ -26,17 +46,20 @@ block body
                     label(for='second_language') Second Language (if applicable)
                     input.form-control(type='text' placeholder='' name='second_language')
                 div.form-group
-                    label(for='country') Country
-                    input.form-control(type='text' placeholder='' name='country')
+                    label(for='gender') Gender
+                    +myDropdown('gender', 'Select below', genderOptions)
                 div.form-group
-                    label(for='state') State
-                    input.form-control(type='text' placeholder='' name='state')
+                    label(for='ethnicity') Ethnicity/Race
+                    +myDropdown('ethnicity', 'Select below', ethnicityOptions)
                 div.form-group
-                    label(for='city') City
-                    input.form-control(type='text' placeholder='' name='city')
+                    label(for='location') Location
+                    input.form-control(type='text' placeholder='Los Angeles, CA United States' name='location')
                 div.form-group
                     label(for='employer') Current Institute (College / Place of Employment)
                     input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
+                div.form-group
+                    label(for='focus') Focus
+                    +myDropdown('focus', 'Select below', focusOptions)
                 div.form-group
                     label(for='bio') Tell us about why yourself (projects, ares of focus, internships)
                     input.form-control(type='text' name='bio')

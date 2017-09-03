@@ -1,35 +1,23 @@
 extends ../../node_modules/pug-bootstrap/_bootstrap
 
-mixin listItem(key, value)
-    ul #{key} : #{value}
-
-mixin capitalize(word, value)
-    ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
-
-mixin myDropdown(name, caption, items)
-    .dropdown
-        button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", id='btn-'+name)
-            = caption
-            | &nbsp;
-            span.caret
-        ul.dropdown-menu()
-            for item in items
-                li(class='option-'+name)
-                    a(tabindex="-1", href='#')= item
-        input(type='hidden', name=name)
-        
-        script.
-            $(document).ready(function () {
-                $('.option-#{name}').click(function(event) {
-                    var selectedVal = event.target.text; 
-                    var ddCaption = selectedVal + "&nbsp;<span class='caret'></span>" ;
-                    $('#btn-#{name}').html(ddCaption);
-                    $('input[name="#{name}"]').val(selectedVal);
-                });
-            });
-
 block body
+    include ../mixins/util
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    -
+        var focusOptions = [
+            'Artificial Intelligence', 
+            'Robotics', 
+            'Web Technologies'
+        ];
+        var gradeOptions = [
+            '1-3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9+'
+        ];
 
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
@@ -45,44 +33,12 @@ block body
                 div.form-group
                     label(for='last_name') Last Name
                     input.form-control(type='text' placeholder='Snow' name='last_name')
-                
-                -
-                 var languageOptions = [
-                     'English', 
-                     'Spanish', 
-                     'Chinese'
-                 ];
-                 var ethnicityOptions = [
-                     'White', 
-                     'Hispanic/Latino', 
-                     'Black or African-American', 
-                     'Asian', 
-                     'American Indian or Alaska Native',
-                     'Middle Eastern or North African',
-                     'Native Hawaiian or other Pacific Islander'
-                 ];
-                 var focusOptions = [
-                     'Artificial Intelligence', 
-                     'Robotics', 
-                     'Web Technologies'
-                 ];
-                 
                 div.form-group
                     label(for='first_language') First Language
-                    +myDropdown('first_language', 'Select below', languageOptions)
-                //- div.form-group
-                //-     label(for='gender') Gender
-                //-     div.form-check-inline
-                //-         label.form-check-label(style='font-weight:normal')
-                //-             input.form-check-input(type='radio' value='M' name='gender') 
-                //-             |&nbsp;Male
-                //-             |&nbsp;
-                //-         label.form-check-label(style='font-weight:normal')
-                //-             input.form-check-input(type='radio' value='F' name='gender')
-                //-             |&nbsp;Female
-                //- div.form-group
-                //-     label(for='ethnicity') Ethnicity
-                //-     +myDropdown('ethnicity', 'Select below', ethnicityOptions)
+                    input.form-control(type='text' placeholder='English' name='first_language')
+                div.form-group
+                    label(for='grade') Grade
+                    +myDropdown('grade', 'Select below', gradeOptions)
                 div.form-group
                     label(for='school') School
                     input.form-control(type='text' placeholder='Culver City Middle School' name='school')
