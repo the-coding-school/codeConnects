@@ -4,20 +4,6 @@ block body
     include ../mixins/util
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
     -
-        var languageOptions = [
-            'English', 
-            'Spanish', 
-            'Chinese'
-        ];
-        var ethnicityOptions = [
-            'White', 
-            'Hispanic/Latino', 
-            'Black or African-American', 
-            'Asian', 
-            'American Indian or Alaska Native',
-            'Middle Eastern or North African',
-            'Native Hawaiian or other Pacific Islander'
-        ];
         var focusOptions = [
             'Artificial Intelligence', 
             'Robotics', 
@@ -50,7 +36,7 @@ block body
                     input.form-control(type='text' placeholder='Snow' name='last_name')
                 div.form-group
                     label(for='first_language') First Language
-                    +myDropdown('first_language', 'Select below', languageOptions)
+                    input.form-control(type='text' placeholder='English' name='first_language')
                 div.form-group
                     label(for='grade') Grade
                     +myDropdown('grade', 'Select below', gradeOptions)
