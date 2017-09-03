@@ -5,8 +5,27 @@ mixin capitalize(word, value)
     ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
 
 block body
+    nav.navbar.navbar-default 
+                    .container-fluid
+                        .navbar-header
+                            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+                                span.sr-only Toggle navigation  
+                                span.icon-bar
+                                span.icon-bar
+                                span.icon-bar
+                            a.navbar-brand(href='#') codeConnects
+                        #navbar.navbar-collapse.collapse
+                            ul.nav.navbar-nav
+                                li.active
+                                    a(href='#') Home
+                                li
+                                    a(href='#') Link
+                                li 
+                                    a(href='#') Link
+                                    
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
+
         div.col-sm-5.col-sm-offset-1
 
             h1 Keep Your Profile Updated
