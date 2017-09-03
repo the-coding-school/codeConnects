@@ -11,12 +11,11 @@ var studentModel = dynogels.define('studentModel', {
             email           : Joi.string(),
             first_name      : Joi.string(),
             last_name       : Joi.string(),
-            age             : Joi.number().integer(),
+            first_language  : Joi.string(),
             grade           : Joi.number().integer(),
             school          : Joi.string(),
-            counter         : Joi.string(),
-            state           : Joi.string(),
-            city            : Joi.string()
+            location        : Joi.string(),
+            focus           : Joi.string()
         },
 
     tableName: 'Students'
