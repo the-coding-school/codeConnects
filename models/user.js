@@ -9,7 +9,7 @@ var userModel = dynogels.define('userModel', {
     hashKey : 'email',
 
     timestamps : true,
-    
+
     schema : {
         email            : Joi.string().email(),
         password         : Joi.string(),

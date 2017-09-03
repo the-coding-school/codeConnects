@@ -1,11 +1,36 @@
-extends ../profile
+extends ../../node_modules/pug-bootstrap/_bootstrap
 
 mixin listItem(key, value)
     ul #{key} : #{value}
+
 mixin capitalize(word, value)
     ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
 
+mixin myDropdown(name, caption, items)
+    .dropdown
+        button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", id='btn-'+name)
+            = caption
+            | &nbsp;
+            span.caret
+        ul.dropdown-menu()
+            for item in items
+                li(class='option-'+name)
+                    a(tabindex="-1", href='#')= item
+        input(type='hidden', name=name)
+        
+        script.
+            $(document).ready(function () {
+                $('.option-#{name}').click(function(event) {
+                    var selectedVal = event.target.text; 
+                    var ddCaption = selectedVal + "&nbsp;<span class='caret'></span>" ;
+                    $('#btn-#{name}').html(ddCaption);
+                    $('input[name="#{name}"]').val(selectedVal);
+                });
+            });
+
 block body
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
         div.col-sm-5.col-sm-offset-1
@@ -13,22 +38,61 @@ block body
             h1 Keep Your Profile Updated
             p Teachers accept students based on their profile information
 
-            form(action="/teacher-bio" method="post")
+            form(action="/student-bio" method="post")
                 div.form-group
                     label(for='first_name') First Name
-                    input.form-control(type='text' placeholder='Arya' name='first_name')
+                    input.form-control(type='text' placeholder='John' name='first_name')
                 div.form-group
                     label(for='last_name') Last Name
-                    input.form-control(type='text' placeholder='Stark' name='last_name')
+                    input.form-control(type='text' placeholder='Snow' name='last_name')
+                
+                -
+                 var languageOptions = [
+                     'English', 
+                     'Spanish', 
+                     'Chinese'
+                 ];
+                 var ethnicityOptions = [
+                     'White', 
+                     'Hispanic/Latino', 
+                     'Black or African-American', 
+                     'Asian', 
+                     'American Indian or Alaska Native',
+                     'Middle Eastern or North African',
+                     'Native Hawaiian or other Pacific Islander'
+                 ];
+                 var focusOptions = [
+                     'Artificial Intelligence', 
+                     'Robotics', 
+                     'Web Technologies'
+                 ];
+                 
                 div.form-group
                     label(for='first_language') First Language
-                    input.form-control(type='text' placeholder='English' name='first_language')
+                    +myDropdown('first_language', 'Select below', languageOptions)
+                //- div.form-group
+                //-     label(for='gender') Gender
+                //-     div.form-check-inline
+                //-         label.form-check-label(style='font-weight:normal')
+                //-             input.form-check-input(type='radio' value='M' name='gender') 
+                //-             |&nbsp;Male
+                //-             |&nbsp;
+                //-         label.form-check-label(style='font-weight:normal')
+                //-             input.form-check-input(type='radio' value='F' name='gender')
+                //-             |&nbsp;Female
+                //- div.form-group
+                //-     label(for='ethnicity') Ethnicity
+                //-     +myDropdown('ethnicity', 'Select below', ethnicityOptions)
                 div.form-group
                     label(for='school') School
                     input.form-control(type='text' placeholder='Culver City Middle School' name='school')
                 div.form-group
                     label(for='location') Location
                     input.form-control(type='text' placeholder='Los Angeles, CA United States' name='location')
+                div.form-group
+                    label(for='focus') Area of interest
+                    +myDropdown('focus', 'Select below', focusOptions)
+
                 button.btn.btn-warning.btn-lg(type='submit') Update Profile
 
         div.col-sm-5.col-sm-offset-1

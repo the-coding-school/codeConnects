@@ -6,11 +6,10 @@ block body
 
         h1 Signup
 
-        <!-- show any messages that come back with authentication -->
+        //- show any messages that come back with authentication
         if message.length > 0
             div.alert.alert-danger #{message}
 
-        <!-- LOGIN FORM -->
         form(action="/signup" method="post")
             div.form-group
                 label(for='email') Email
@@ -25,7 +24,7 @@ block body
                 |Student
             button.btn.btn-warning.btn-lg(type='submit') Apply
 
-        <hr>
+        hr
 
         p Already have an account? 
             a(href="/login") Login.
