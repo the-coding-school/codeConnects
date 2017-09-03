@@ -12,7 +12,6 @@ var studentModel = dynogels.define('studentModel', {
             first_name      : Joi.string(),
             last_name       : Joi.string(),
             first_language  : Joi.string(),
-            age             : Joi.number().integer(),
             grade           : Joi.number().integer(),
             school          : Joi.string(),
             location        : Joi.string(),
