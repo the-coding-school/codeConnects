@@ -10,8 +10,8 @@ block body
         div.col-sm-5.col-sm-offset-1
 
             h1 Keep Your Profile Updated
+            p Students select teachers based on their profile information.
 
-            <!-- LOGIN FORM -->
             form(action="/teacher-bio" method="post")
                 div.form-group
                     label(for='first_name') First Name
@@ -40,7 +40,7 @@ block body
                 div.form-group
                     label(for='bio') Tell us about why yourself (projects, ares of focus, internships)
                     input.form-control(type='text' name='bio')
-                button.btn.btn-warning.btn-lg(type='submit') Submit Profile
+                button.btn.btn-warning.btn-lg(type='submit') Update Profile
 
         div.col-sm-5.col-sm-offset-1
 
@@ -58,7 +58,7 @@ block body
                     when "last_name"
                         +listItem("Last Name", value)
                     when "first_language"
-                        +listItem("Last Name", value)
+                        +listItem("First Language", value)
                     when "employer"
                         +listItem("Employer / University", value)
                     when "bio"

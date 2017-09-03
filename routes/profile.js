@@ -34,12 +34,22 @@ function isLoggedIn(req, res, next) {
 }
 
 function render_student(req, res, attr){
+    var email = req.cookies.user.email
+    var keys = []
+    var values = []
     
     /* function render_student*/
         if(attr.approved == true){
-            res.render('student/student-bio', {
-            user : attr // get the user out of session and pass to template
-        });
+            Student.get(email, function (err, student){
+                for(key in student.attrs){
+                    keys.unshift(key)
+                    values.unshift(student.attrs[key])
+                }
+                res.render('student/student-bio', {
+                    keys:       keys,
+                    values:     values
+                });
+            })
         }
         else{
             res.redirect('/');
