@@ -1,49 +1,105 @@
 process.env.NODE_ENV = 'test';
-var app = require('../app');
+
 var Browser = require('zombie');
-var assert = require('assert');
 
-describe.skip('login page', function(done){
-	// initialize the browser using the same port as the test application
-	before(function() {
-		this.browser = new Browser({ site: 'http://localhost:3000'});
-     });
+/*
+* ZOMBIE UI TESTS LEVEL 1 - LOGIN PAGE
+*
+* server starts/closes before/after each test
+*
+* */
 
-	// load the signup page
-	before(function(done) {
-    		this.browser.visit('/login', done);
-  	});
+var User = require('../models/user');
 
-	// a login form should exist
+describe('login page ui tests', function(){
+    var validEmail = "approved_teacher@tcs.com";
+    var newEmail = "zombie_teacher@tcs.com";
+    var validPass = "test";
+    var newPass = "junk";
+    var TEST_URL = 'http://localhost:3000';
+    var appLocation = '../bin/www';
+    var server;
+
+
+    before('initialize test browser', function() {
+        this.browser = new Browser();
+    });
+
+
+    beforeEach('initialize app', function(done) {
+        delete require.cache[require.resolve(appLocation)];
+        server = require(appLocation);
+        this.browser.site = TEST_URL;
+        // loading login page
+        this.browser.visit('/login', done);
+        // disabling default timeouts
+        this.timeout(0);
+    });
+
+
+    afterEach(function(done) {
+        server.close(done)
+    });
+
+
+
 	it('should show a login form', function(done){
-		assert.ok(this.browser.success);
-		assert.equal(this.browser.text('h1'), 'Login');
-		assert.equal(this.browser.text('form label'), 'EmailPassword');
-		done();
+	    var browser = this.browser;
+        browser.assert.success();
+        browser.assert.text('h1', 'Login');
+        browser.assert.text('form label', 'EmailPassword');
+        done();
 	});
 
-	// should not accept empty submissions
+
+    it('should abort if login credentials invalid',function(done){
+        var browser = this.browser;
+        browser.fill('email', newEmail);
+        browser.fill('password', newPass);
+        browser.pressButton('Login').then(function() {
+            browser.assert.success();
+            browser.assert.text('div.alert', 'No user found.');
+        }).then(done, done);
+    });
+
+
+    it('should abort if invalid password', function(done) {
+        var browser = this.browser;
+        browser.fill('email', validEmail);
+        browser.fill('password', newPass);
+        browser.pressButton('Login').then(function () {
+            browser.assert.success();
+            browser.assert.text('h1', 'Login');
+            browser.assert.text('div.alert', 'Oops! Wrong password.');
+        }).then(done, done);
+    });
+
+
+    // TODO: unable to test incomplete input fields(required) error messages
+	// TODO: if many form fields, test all combinations of incomplete inputs with generic method
+
+	/*
 	it('should not accept empty submissions', function(done){
 		var browser = this.browser;
-		browser.pressButton('Login', function(){
-			assert.ok(browser.success);
-			assert.equal(browser.text('h1'), 'Login');
-			assert.equal(browser.text('div.alert.alert-danger'), 'Please enter all the fields to login').then(done, done);
-		});
+		browser.pressButton('Login').then(function(){
+			browser.assert.success();
+			browser.assert.text('h1', 'Login');
+			browser.assert.text('div.alert.alert-danger', 'Please enter all the fields to login');
+		}).then(done, done);
 	});
 
-	// should not accept only the email
+
 	it('should not login only with email', function(done){
 		var browser = this.browser;
 		browser.fill('email', 'John@gmail.com');
 		browser.pressButton('Login').then(function(){
-			assert.ok(browser.success);
-			assert.equal(browser.text('h1'), 'Login');
-			assert.equal(browser.text('div.alert'), 'Please fill in all the fields to continue');
+	       browser.assert.success();
+	       browser.assert.text('h1', 'Login');
+	       browser.assert.text('div.alert', 'Please fill in all the fields to continue');
 		}).then(done, done);
 	});
 
-	// should not accept only the password
+
 	it('should not login only with password', function(done){
 		var browser = this.browser;
 		browser.fill('password', 'test');
@@ -53,26 +109,6 @@ describe.skip('login page', function(done){
 			assert.equal(browser.text('div.alert'), 'Please fill in all the fields to continue');
 		}).then(done, done);
 	});
+	*/
 
-	// refuse invalid email addresses
-	it('should not accept invalid emails', function(done){
-		var browser = this.browser;
-		browser.fill('email', 'incorrect email');
-		browser.pressButton('Login').then(function(){
-			assert.ok(browser.success);
-			assert.equal(browser.text('h1'), 'Login');
-			assert.equal(browser.text('div.alert'), 'Please include an \'@\' in the email address. \'incorrect email\' is missing an \'@\'.');
-		}).then(done, done);
-	});
-
-	//Should accept the form if both a valid email and a password is present
-	it('Should have a correct email and password combination',function(done){
-		var browser = this.browser;
-		browser.fill('email', 'john@email.com');
-		browser.fill('password', 'john');
-		browser.pressButton('Login').then(function() {
-			assert.ok(browser.success);
-      		assert.equal(browser.text('div.alert'), 'No user found.');
-		}).then(done, done);
-	});
 });

@@ -1,73 +1,113 @@
-var supertest = require("supertest");
-var should = require("chai").should();
-var server = supertest.agent("http://localhost:3000");
+process.env.NODE_ENV = 'test';
+var request = require("supertest");
 
-describe("testing all routes", function()
+/*
+* ROUTE TESTS
+*
+* server starts/closes before/after each test
+*
+* if signup aborts, database is untouched
+* if signup succeeds, database is dirty
+*   - (afterEach hook responsible for db cleanup)
+* */
+
+
+var User = require('../models/user');
+
+describe("Route tests", function()
 {
-	// root GET call
-	it("returns home page", function(done) {
-		server.get("/")
-		.expect("Content-type",/text\/html/)
- 		.end(function(err, res) {
-			if (err) return done(err)
-  			res.status.should.equal(200);
-  			done();
-		});
+	var validEmail = "approved_teacher@tcs.com";
+	var invalidEmail = "random_teacher@tcs.com";
+	var validPass = "test";
+	var invalidPass = "junk";
+	var server;
+
+	beforeEach(function() {
+		delete require.cache[require.resolve('../bin/www')];
+		server = require('../bin/www')
+		this.timeout(0)
 	});
 
-	it("redirects to profile with valid login credentials", function(done) {
-		server.post("/login")
-		.send('email=approved_teacher@tcs.com')
-		.send('password=test')
-		.expect("Content-type",/text/)
- 		.end(function(err, res) {
-			if (err) return done(err)
-			res.status.should.equal(302);
-			res.header.location.should.eql('/profile')
-			done();
-		});
+	afterEach(function(done) {
+		server.close(done)
 	});
 
-	it("redirects back to login with invalid login credentials", function(done) {
-		server.post("/login")
-		.send('email=teacher@gmail.com')
-		.send('password=badpass')
-		.expect("Content-type",/text/)
- 		.end(function(err, res) {
-			if (err) return done(err)
-			res.status.should.equal(302);
-			res.header.location.should.eql('/login')
-			done();
-		});
+	// testing root /
+	it("GET /, homepage", function(done) {
+		request(server)
+		.get("/")
+		.expect(200)
+		.expect("Content-Type", /text\/html/, done)
 	});
 
-	it("redirects to homepage for successful signup", function(done) {
-		server.post("/signup")
-		.send('email=someone@email.com')
-		.send('password=somepassword')
+	// testing /login #######################################
+	it("POST /login, valid credentials, should redirect to /profile", function(done) {
+		request(server)
+		.post("/login")
+		.send('email='+validEmail)
+		.send('password='+validPass)
+		.expect('Content-Type', /text/)
+		.expect('Location', /\/profile/)
+		.end(function(err, res) {
+			if (err) return done(err);
+			done()
+		})
+
+	});
+
+	it("POST /login, invalid credentials, should redirect to /login", function(done) {
+		request(server)
+		.post("/login")
+		.send('email='+invalidEmail)
+		.send('password='+invalidPass)
+		.expect('Content-Type', /text/)
+		.expect('Location', /\/login/)
+		.end(function(err, res) {
+			if (err) return done(err);
+			done()
+		})
+
+	});
+
+	// testing /signup #######################################
+	it("POST /signup, failed signup, should redirect to /signup", function(done) {
+		request(server)
+		.post("/signup")
+		.send('email='+validEmail)
+		.send('password='+validPass)
 		.send('role=1')
-		.expect("Content-type", /text/)
- 		.end(function(err, res) {
-			if (err) return done(err)
-			res.status.should.equal(302);
-			res.header.location.should.eql('/profile')
-			done();
-		});
+		.expect("Content-Type", /text/)
+		.expect('Location', /\/signup/)
+		.end(function(err, res) {
+			if (err) return done(err);
+			done()
+		})
 	});
 
-	it.only("redirects back to signup if email exists", function(done) {
-		server.post("/signup")
-		.send('email=approved_teacher@tcs.com')
-		.send('password=test')
-		.send('role=1')
-		.expect("Content-type", /text/)
-		.expect("Location", /\/signup/)
- 		.end(function(err, res) {
-			if (err) return done(err)
-			console.log(res.body)
-			res.text.should.match(/That email is already taken./)
-			done();
+	describe("Users table needs restore", function() {
+		it("POST /signup, successful signup, should redirect to homepage", function(done) {
+			request(server)
+			.post("/signup")
+			.send('email='+invalidEmail)
+			.send('password='+validPass)
+			.send('role=1')
+			.expect('Content-Type', /text/)
+			.expect('Location', /\/profile/)
+			.end(function(err, res) {
+				if (err) return done(err);
+				done()
+			})
 		});
-	});
+
+		afterEach(function(done) {
+			User.destroy({email: invalidEmail}, function(err, res) {
+				if (err) return done(err);
+				else {
+					console.log('\t- deleted test item: '+ invalidEmail);
+					done()
+				}
+			})
+		})
+	})
 
 });
