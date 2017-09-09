@@ -1,10 +1,21 @@
 var express = require('express');
-var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var Teacher     = require('../models/teacher');
 
-module.exports = router;
+module.exports = function(app, passport) {
+  /* GET users listing. */
+  app.get('/teacherlist', function(req, res) {
+    var list = [];
+    
+    Teacher.scan()
+    .where('approved').equals(true)
+    .exec(function(err, teachers){
+      for(index in teachers.Items){
+        var attr = teachers.Items[index].attrs;
+        list.push(attr);
+      }
+      res.render('userlist', {userlist: list});
+    });
+  });
 
+};

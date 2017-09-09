@@ -1,0 +1,12 @@
+extend layout
+block content
+    h1.
+        Teacher List
+    ul
+        each user in userlist
+            div.well.container
+                p
+                    a(href="mailto:#{user.email}")= user.email
+                    br
+                    strong Approval Status :
+                    |#{user.approved}
