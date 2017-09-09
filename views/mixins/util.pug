@@ -25,3 +25,10 @@ mixin myDropdown(name, caption, items)
                     $('input[name="#{name}"]').val(selectedVal);
                 });
             });
+
+mixin weekCalendar()
+    button
+        script.
+            $(document).ready(function () {
+                $("#flat").flatpickr();
+            });

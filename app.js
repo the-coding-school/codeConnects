@@ -11,6 +11,8 @@ var flash    = require('connect-flash');
 var session      = require('express-session');
 var dynogels = require('dynogels');
 
+const flatpickr        = require("flatpickr");
+
 dynogels.AWS.config.loadFromPath('./config/credentials.json')
 
 dynogels.AWS.config.update({region: "us-west-2", endpoint: "https://dynamodb.us-west-2.amazonaws.com"})
