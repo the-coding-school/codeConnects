@@ -3,6 +3,12 @@ extends ../../node_modules/pug-bootstrap/_bootstrap
 block body
     include ../mixins/util
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    link(rel="stylesheet", href="https://unpkg.com/flatpickr/dist/flatpickr.min.css")
+    script(src="https://unpkg.com/flatpickr")
+    -
+        var flatpickr = function(){
+                div.flatpickr
+            }
     -
         var ethnicityOptions = [
             'White', 
@@ -24,11 +30,19 @@ block body
             'Male',
             'Non-binary'
         ];
+        var days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ];
 
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
         div.col-sm-5.col-sm-offset-1
-
             h1 Keep Your Profile Updated
             p Students select teachers based on their profile information.
 
@@ -57,6 +71,12 @@ block body
                 div.form-group
                     label(for='employer') Current Institute (College / Place of Employment)
                     input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
+                div.form-group
+                    label(for='availability') Availability
+                        each day in days
+                            div #{day}
+                            button.btn(type='button' onclick='flatpickr')
+                    +timePicker()
                 div.form-group
                     label(for='focus') Focus
                     +myDropdown('focus', 'Select below', focusOptions)
