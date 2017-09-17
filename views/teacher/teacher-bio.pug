@@ -5,10 +5,7 @@ block body
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
     link(rel="stylesheet", href="https://unpkg.com/flatpickr/dist/flatpickr.min.css")
     script(src="https://unpkg.com/flatpickr")
-    -
-        var flatpickr = function(){
-                div.flatpickr
-            }
+
     -
         var ethnicityOptions = [
             'White', 
@@ -72,11 +69,22 @@ block body
                     label(for='employer') Current Institute (College / Place of Employment)
                     input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
                 div.form-group
+                    label(for='volunteer') How many hours are you willing to volunteer?
+                    input.form-control(type='number' placeholder='' name='volunteer')
+                div.form-group
+                    label(for='paid') How many hours are you willing to do paid teaching?
+                    input.form-control(type='number' placeholder='' name='paid')
+                div.form-group
                     label(for='availability') Availability
-                        each day in days
-                            div #{day}
-                            button.btn(type='button' onclick='flatpickr')
-                    +timePicker()
+                    p
+                        |Input the time slots you are available to start a one hour lesson </br>(Pacific Time Zone).
+                    each day in days
+                        div #{day}
+                        button.btn.col-sm-offset-1( type='button' onclick="timepicker('" + day +"')" ) +
+                        button.btn.col-sm-offset-1( type='button' onclick="clearDay('" + day + "')" ) Reset
+                        </br>
+                        label(for=day id=day)
+                        </br>
                 div.form-group
                     label(for='focus') Focus
                     +myDropdown('focus', 'Select below', focusOptions)

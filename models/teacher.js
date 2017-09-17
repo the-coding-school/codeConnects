@@ -22,6 +22,8 @@ var teacherModel = dynogels.define('teacherModel', {
             paid            : Joi.boolean(),
             bio             : Joi.string(),
             complete        : Joi.boolean(),
+            paid            : Joi.number(),
+            volunteer       : Joi.number(),
             availability    : Joi.object().keys({
                 monday      : Joi.binary(),
                 tuesday     : Joi.binary(),

@@ -94,19 +94,20 @@ function submitForm(req, res, next){
         Teacher.get(email, function(err, teacher){
             if(err)
                 return done(err);
-    
+            
+            console.log(req);
+                //stop empty form inputs from being saved to the database
             for(var key in form){
-                console.log(key);
                 if(form.hasOwnProperty(key) && form[key] == ''){
                     delete form[key]
                 }
             }
-            teacher.set(form);
-            teacher.save(function(err) {
-                if(err)
-                    throw err;
-                return next();
-            });
+            // teacher.set(form);
+            // teacher.save(function(err) {
+            //     if(err)
+            //         throw err;
+            //     return next();
+            // });
         });
     }
 
@@ -114,14 +115,13 @@ function submitForm(req, res, next){
         Student.get(email, function(err, student){
             if(err)
                 return done(err);
-    
+
+            //stop empty form inputs from being saved to the database
             for(var key in form){
-                console.log(key);
                 if(form.hasOwnProperty(key) && form[key] == ''){
                     delete form[key]
                 }
             }
-            console.log(form);
             student.set(form);
             student.save(function(err) {
                 if(err)

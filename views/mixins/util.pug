@@ -1,3 +1,5 @@
+
+
 mixin listItem(key, value)
     ul #{key} : #{value}
 
@@ -26,17 +28,18 @@ mixin myDropdown(name, caption, items)
                 });
             });
 
-mixin timePicker()
-        script.
-            $('.flatpickr').flatpickr({
-                dateFormat: "Y.m.d",
-                enable: [
-                    {from: "2017-09-10",
-                    to: "2017-09-16"
-                    }
-                ],
-                mode: "multiple",
-                noCalendar: true,
-                enableTime: true,
-                inline: true
-            });
+script.
+    function timepicker(day){
+        var input = document.createElement('input');
+        input.type = "time";
+        input.step = 3600;
+        input.className = "form-control";
+        input.name = day;
+        var app = document.getElementById(day);
+        app.appendChild(input);
+    }
+
+script.
+    function clearDay(day){
+        $("#" + day).empty();
+    }
