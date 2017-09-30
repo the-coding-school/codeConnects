@@ -118,7 +118,7 @@ function createUser(req, email, password, done){
     var credentials = {
         email           : email ,
         password        : newUser.generateHash(password),
-        teacher_role    :teacher_role,
+        teacher_role    : teacher_role,
         approved        : false
     }
     // set the user's local credentials
@@ -141,7 +141,14 @@ function createUser(req, email, password, done){
 function createTeacher(email, attributes, done){
     var newTeacher      = new Teacher();
     var credentials = {
-        email       : email,
+        email           : email,
+        monday          : new Array(24).fill(false),
+        tuesday         : new Array(24).fill(false),
+        wednesday       : new Array(24).fill(false),
+        thursday        : new Array(24).fill(false),
+        friday          : new Array(24).fill(false),
+        saturday        : new Array(24).fill(false),
+        sunday          : new Array(24).fill(false)
     }
     newTeacher.set(credentials);
 

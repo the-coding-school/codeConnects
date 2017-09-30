@@ -89,25 +89,34 @@ function submitForm(req, res, next){
     var user = req.cookies.user;
     var email = user.email;
     var teacher_flag = user.teacher_role;
+    var days = ['monday', 'tuesday', 'wednesday','thursday', 'friday', 'saturday', 'sunday'];
 
     if(teacher_flag === true){
         Teacher.get(email, function(err, teacher){
             if(err)
                 return done(err);
-            
-            console.log(req);
-                //stop empty form inputs from being saved to the database
             for(var key in form){
+                //stop empty form inputs from being saved to the database
                 if(form.hasOwnProperty(key) && form[key] == ''){
                     delete form[key]
                 }
+
+                //if the key is found in the days array, parse its hours and update the form
+                if(days.indexOf(decapitalize(key)) !== -1){
+                    //get current availability from database
+                    currHours = teacher.get(decapitalize(key));
+                    //flip the correct hours
+                    form[key] = parseHours(form, key, currHours);
+                    form[decapitalize(key)] = form[key];
+                    delete form[key];
+                }
             }
-            // teacher.set(form);
-            // teacher.save(function(err) {
-            //     if(err)
-            //         throw err;
-            //     return next();
-            // });
+            teacher.set(form);
+            teacher.save(function(err) {
+                if(err)
+                    throw err;
+                return next();
+            });
         });
     }
 
@@ -130,4 +139,23 @@ function submitForm(req, res, next){
             });
         });
     }
+}
+
+function parseHours(form, day, currHours){
+    var newHours = form[day];
+    for(i = 0; i < newHours.length; i++){
+        var hour = newHours[i];
+        var index = toIndex(hour);
+        currHours[index] = true;
+    }
+    return currHours;
+}
+
+function decapitalize(string){
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+function toIndex(hour){
+    var ret = hour.substring(0,2);
+    return parseInt(ret);
 }
