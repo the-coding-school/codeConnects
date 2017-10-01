@@ -3,35 +3,38 @@ var Teachers     = require('../models/teacher');
 var Users     = require('../models/user');
 
 var filter = {
-    approvedTeachers:  function(list, callback) {
+    approvedTeachers:  function(cb) {
+        var aList = [];     // approved teachers list to be returned
+        var approvedEmails = [];    // emails of approved teachers from Users
         Users.scan()
-        .where('approved').equals(true)
-        .where('teacher_role').equals(true)
-        .exec(function(err, approvedUsers) {
-            if (err) throw err;
-            var approvedEmails = [];
-            for(idx in approvedUsers.Items) {
-                var keyEmail = approvedUsers.Items[idx].attrs.email;
-                approvedEmails.push(keyEmail);
-            }
-            Teachers.scan()
-            .where('email').in(approvedEmails)
-            .exec(function(err, approvedTeachers) {
-                if (err) throw err;
-                for(idx in approvedTeachers.Items) {
-                    console.log(approvedTeachers.Items[idx].attrs);
-                    var teacherAttr = approvedTeachers.Items[idx].attrs;
-                    list.push(teacherAttr);
+            .where('approved').equals(true)
+            .where('teacher_role').equals(true)
+            .exec(function(err, approvedUsers) {
+                if (err)
+                    throw err;
+                for(idx in approvedUsers.Items) {
+                    var keyEmail = approvedUsers.Items[idx].attrs.email;
+                    approvedEmails.push(keyEmail);
                 }
-            });
-            callback();
+                Teachers.scan()
+                    .where('email').in(approvedEmails)
+                    .exec(function(err, approvedTeachers) {
+                        if (err)
+                            throw err;
+                        for(idx in approvedTeachers.Items) {
+                            var teacherAttr = approvedTeachers.Items[idx].attrs;
+                            aList.push(teacherAttr);
+                        }
+                        cb(aList);
+                });
         });
     },
 
-    attributes: function(list, attributes, callback) {
+    attributes: function(attributes, cb) {
         var filterExp = [];
         var attrNames = {};
         var attrValues = {};
+        var fList = [];
 
         for (var key in attributes) {
             if (attributes[key]) {
@@ -43,6 +46,7 @@ var filter = {
                 filterExp.push(attr);
             }
         }
+
         filterExpStr = filterExp.join(' AND ');
 
         Teachers.scan()
@@ -54,10 +58,10 @@ var filter = {
                 if (err) throw err;
                 for (index in teachers.Items) {
                     var attr = teachers.Items[index].attrs;
-                    list.push(attr);
+                    fList.push(attr);
                 }
-                callback();
-            });
+                cb(fList);
+        });
     }
 }
 

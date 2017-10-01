@@ -2,40 +2,36 @@ var express     = require('express');
 var Teacher     = require('../models/teacher');
 var filter      = require('./filter');
 
-function checkPropsAreNull(obj) {
-    for(var key in obj) {
-        if (obj[key]) {
-            return false;
-        }
-    }
-    return true;
-}
-
 module.exports = function(app, passport) {
-
-    /* GET: fetching all teachers. */
+    // fetching all approved teacher list on filter page
     app.get('/teacherlist', function(req, res) {
-        var list = [];
-        filter.approvedTeachers(list, function(){
-            res.render('userlist', {userlist: list});
+        filter.approvedTeachers(function(aList) {
+            res.render('userlist', {userlist: aList});
         });
     });
 
-    /* POST: fetching filtered teachers. */
-    app.post('/teacherlist', function(req, res) {
-        var list = [];
-        var attributes = req.body;
 
-        if (checkPropsAreNull(attributes)) {
-            var list = [];
-            filter.approvedTeachers(list, function() {
-                res.render('userlist', {userlist: list});
+    // fetching filtered teacher list
+    app.post('/teacherlist', function(req, res) {
+        var filterAttrs = req.body;
+        if (checkPropsAreNull(filterAttrs)) {
+            filter.approvedTeachers(function(aList) {
+                res.render('userlist', {userlist: aList});
             });
         }
         else {
-            filter.attributes(list, attributes, function() {
+            filter.attributes(filterAttrs, function(list) {
                 res.send({userlist: list});
             });
         }
     });
 };
+
+
+// returns true if all properties have null values
+function checkPropsAreNull(obj) {
+    for(var key in obj) {
+        if (obj[key]) return false;
+    }
+    return true;
+}

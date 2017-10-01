@@ -9,34 +9,6 @@ function clearForm() {
     }
 }
 
-function updateList(res) {
-    var newList = res.userlist;
-
-    for (var i in newList) {
-        var teacher = newList[i];
-        var teacherName = teacher.last_name + ", " + teacher.first_name;
-        var teacherFocus = teacher.focus;
-        var teacherEmail = teacher.email;
-
-        var newDiv = $('<div>').addClass('well container').append(
-            $('<ul>').attr('style', 'list-style: none').append(
-                $('<li>').append(
-                    $('<strong>').text(teacherName)
-                ).append(
-                    $('<li>').append(
-                        teacherFocus
-                    ).append(
-                        $('<li>').append(
-                            teacherEmail
-                        )
-                    )
-                )
-            )
-        );
-
-        $('#teacherlist').append(newDiv);
-    }
-}
 
 function getTeacherList(targetUrl, data) {
     $.ajax({
@@ -49,6 +21,38 @@ function getTeacherList(targetUrl, data) {
         }
     });
 }
+
+
+function updateList(res) {
+    var newList = res.userlist;
+
+    for (var i in newList) {
+        var teacher = newList[i];
+        var teacherBundle = {
+            name: teacher.last_name+", "+teacher.first_name,
+            focus: teacher.focus,
+            email: teacher.email
+        };
+        var listDiv = createListItemTemplate(teacherBundle);
+        $('#teacherlist').append(listDiv);
+    }
+}
+
+
+function createListItemTemplate(t) {
+    var newDiv = $('<div>').addClass('well container').append(
+        $('<ul>').attr('style', 'list-style: none').append(
+            $('<li>').append($('<strong>').text(t.name)).append(
+            $('<li>').append(t.focus)).append(
+            $('<li>').append($('<a>')
+                .attr('href', 'mailto:'+t.email)
+                .text(t.email))
+            )
+        )
+    );
+    return newDiv;
+}
+
 
 $(document).ready(function() {
     $('#filterTeacherListForm').on('reset', function(ev) {

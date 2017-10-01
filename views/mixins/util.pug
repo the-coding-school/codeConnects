@@ -19,6 +19,7 @@ mixin myDropdown(name, caption, items)
         script.
             $(document).ready(function () {
                 $('.option-#{name}').click(function(event) {
+                    event.preventDefault();
                     var selectedVal = event.target.text; 
                     var ddCaption = selectedVal + "&nbsp;<span class='caret'></span>" ;
                     $('#btn-#{name}').html(ddCaption);
