@@ -1,0 +1,35 @@
+extends ../../node_modules/pug-bootstrap/_bootstrap
+
+block body
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    link(rel='stylesheet', href='/stylesheets/admin.css')
+    div.container-fluid
+        h1.text-center Admin Dashboard
+    div.container-fluid
+        div.row
+            div.col-sm-8.col-sm-offset-2  
+                p.text-left.h4 Welcome Admin! Displaying 
+                    span.badge #{userlist.length} 
+                    | &nbsp;teachers
+    div.container-fluid
+        div.row
+            div.col-sm-8.col-sm-offset-2
+                table.table.table-bordered.table-striped
+                    thead.thead-inverse
+                        tr
+                            th Email
+                            th Created at
+                            th Approved
+                    tbody
+                        each teacher in userlist
+                            tr
+                                td #{teacher.email}
+                                td #{teacher.createdAt}
+                                td.text-center 
+                                    if teacher.approved
+                                        button.btn.btn-sm.btn-success.approveToggle 
+                                            span.glyphicon.glyphicon-ok
+                                    else
+                                        button.btn.btn-sm.btn-danger.approveToggle
+                                            span.glyphicon.glyphicon-remove
+    script(src='js/admin.js')

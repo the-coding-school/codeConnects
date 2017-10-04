@@ -3,6 +3,24 @@ var Teachers     = require('../models/teacher');
 var Users     = require('../models/user');
 
 var filter = {
+    allTeachers: function(cb) {
+        var allList = [];     // all teachers list to be returned
+        Users.scan()
+            .where('teacher_role').equals(true)
+            .exec(function(err, allTeachers) {
+                if (err)
+                    throw err;
+                for(idx in allTeachers.Items) {
+                    var returnDataBundle = {};
+                    returnDataBundle.email = allTeachers.Items[idx].attrs.email;
+                    returnDataBundle.approved = allTeachers.Items[idx].attrs.approved;
+                    returnDataBundle.createdAt = allTeachers.Items[idx].attrs.createdAt;
+                    allList.push(returnDataBundle);
+                }
+                cb(allList);    // callback when items are fetched
+            });
+    },
+
     approvedTeachers:  function(cb) {
         var aList = [];     // approved teachers list to be returned
         var approvedEmails = [];    // emails of approved teachers from Users

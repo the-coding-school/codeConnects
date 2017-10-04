@@ -1,0 +1,13 @@
+thead th {
+    background-color: #007DBB;
+    color: white;
+}
+
+.glyphicon {
+    position: relative;
+    z-index: 0;
+}
+
+.badge {
+    font-size: 90%;
+}

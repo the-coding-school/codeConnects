@@ -1,6 +1,7 @@
 
 var Teacher            = require('../models/teacher');
 var Student            = require('../models/student');
+var filter            = require('../routes/filter');
 
 module.exports = function(app, passport) {
 // =====================================
@@ -10,6 +11,12 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res) {
         var attributes = req.user.attrs;
+
+        if (attributes.admin_role === true) {
+            filter.allTeachers(function(tList) {
+                res.render('admin/dashboard.pug', {userlist: tList});
+            });
+        }
 
         if(attributes.teacher_role == false){
             render_student(req, res, attributes);
@@ -41,7 +48,7 @@ function render_student(req, res, attr){
     var email = req.cookies.user.email
     var keys = []
     var values = []
-    
+
     /* function render_student*/
         if(attr.approved == true){
             Student.get(email, function (err, student){
@@ -94,7 +101,7 @@ function submitForm(req, res, next){
         Teacher.get(email, function(err, teacher){
             if(err)
                 return done(err);
-    
+
             for(var key in form){
                 console.log(key);
                 if(form.hasOwnProperty(key) && form[key] == ''){
@@ -114,7 +121,7 @@ function submitForm(req, res, next){
         Student.get(email, function(err, student){
             if(err)
                 return done(err);
-    
+
             for(var key in form){
                 console.log(key);
                 if(form.hasOwnProperty(key) && form[key] == ''){
