@@ -130,4 +130,53 @@ function submitForm(req, res, next){
             });
         });
     }
+    window.location.reload();
+}
+
+//This should work if the user chooses to update their profile (onclick for update profile button)
+function updateBio(req, res, next) {
+    var form = req.body;
+    var user = req.cookies.user;
+    var email = user.email;
+    var teacher_flag = user.teacher_role;
+
+    if(teacher_flag === true) {
+        Teacher.get(email, function(err, teacher) {
+            if(err)
+                return done(err);
+            for(var key in form) {
+                console.log(key);
+                if(form.hasOwnProperty(key) && form[key] == '') {
+                    delete form[key]
+                }
+            }
+            teacher.set(form);
+            teacher.save(function(err) {
+                if(err)
+                    throw err;
+                return next();
+            });
+        });
+    }
+    else {
+        Student.get(email, function(err, student) {
+            if(err)
+                return done(err);
+
+            for(var key in form) {
+                console.log(key);
+                if(form.hasOwnProperty(key) && form[key] == '') {
+                    delete form[key]
+                }
+            }
+            console.log(form);
+            student.set(form);
+            student.save(function(err) {
+                if(err)
+                    throw err;
+                return next();
+            });
+        });
+    }
+    window.location.reload();
 }
