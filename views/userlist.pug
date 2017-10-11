@@ -59,17 +59,17 @@ block body
                     each user in userlist
                         div.well.container
                             div.row
-				div.col-sm-4
-					strong #{user.last_name}, #{user.first_name} 
-					br
-					|#{user.focus}
-					br
-					a(href="mailto:#{user.email}")= user.email                           
-				div.col-sm-8
-					br
-					br
-					//button(type='button' style='margin-left:1cm;' border-style='none' color='blue') Request Teacher
-					a(href="some page") Request Teacher
+                                div.col-sm-4
+                                    strong #{user.last_name}, #{user.first_name} 
+                                    br
+                                    |#{user.focus}
+                                    br
+                                    a(href="mailto:#{user.email}")= user.email                           
+                                div.col-sm-8
+                                    br
+                                    br
+                                    //button(type='button' style='margin-left:1cm;' border-style='none' color='blue') Request Teacher
+                                    a(href="some page") Request Teacher
     
     //- ajax calls and teacher list controllers
     script(src='js/teacherlist.js')
