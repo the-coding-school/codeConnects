@@ -3,59 +3,14 @@ extends ../node_modules/pug-bootstrap/_bootstrap
 block body
     include ./mixins/util
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
-    -
-        var ethnicityOptions = [
-            'White', 
-            'Hispanic/Latino', 
-            'Black or African-American', 
-            'Asian', 
-            'American Indian or Alaska Native',
-            'Middle Eastern or North African',
-            'Native Hawaiian or other Pacific Islander',
-            'Not Listed'
-        ];
-
-        var focusOptions = [
-            'Artificial Intelligence', 
-            'Robotics', 
-            'Web Development'
-        ];
-
-        var genderOptions = [
-            'Female',
-            'Male',
-            'Non-binary'
-        ];
-
-        var langOptions = [
-            'English',
-            'Spanish',
-            'Chinese'
-        ];
 
     div.container-fluid
         h1.
-            Teacher List
+            User List
         div#filters.row.container
-            div.col-sm-6
-                form(action="/teacherlist" method="post" id="filterTeacherListForm")
-                    div.form-group
-                        label(for='gender') Gender
-                        +myDropdown('gender', 'Select', genderOptions)
-                    div.form-group
-                        label(for='ethnicity') Ethnicity
-                        +myDropdown('ethnicity', 'Select', ethnicityOptions)
-                    div.form-group
-                        label(for='first_language') Language
-                        +myDropdown('first_language', 'Select', langOptions)
-                    div.form-group
-                        label(for='focus') Focus
-                        +myDropdown('focus', 'Select', focusOptions)
-                    button.btn(type="submit") Search
-                    button.btn(type="reset") Clear
-        
-            div.col-sm-6  
-                ul#teacherlist
+                form(action="/userlist" method="post" id="filterUserListForm")
+                     
+                ul#userlist
                     each user in userlist
                         div.well.container
                             strong #{user.last_name}, #{user.first_name} 
@@ -66,5 +21,7 @@ block body
                             br
     
     //- ajax calls and teacher list controllers
-    script(src='js/teacherlist.js')
+    script(src='js/userlist.js')
+        
+
         
