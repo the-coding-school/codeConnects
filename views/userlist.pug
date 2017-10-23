@@ -1,12 +1,76 @@
-extend layout
-block content
-    h1.
-        Teacher List
-    ul
-        each user in userlist
-            div.well.container
-                p
-                    a(href="mailto:#{user.email}")= user.email
-                    br
-                    strong Approval Status :
-                    |#{user.approved}
+extends ../node_modules/pug-bootstrap/_bootstrap
+
+block body
+    include ./mixins/util
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    -
+        var ethnicityOptions = [
+            'White', 
+            'Hispanic/Latino', 
+            'Black or African-American', 
+            'Asian', 
+            'American Indian or Alaska Native',
+            'Middle Eastern or North African',
+            'Native Hawaiian or other Pacific Islander',
+            'Not Listed'
+        ];
+
+        var focusOptions = [
+            'Artificial Intelligence', 
+            'Robotics', 
+            'Web Development'
+        ];
+
+        var genderOptions = [
+            'Female',
+            'Male',
+            'Non-binary'
+        ];
+
+        var langOptions = [
+            'English',
+            'Spanish',
+            'Chinese'
+        ];
+
+    div.container-fluid
+        h1.
+            Teacher List
+        div#filters.row.container
+            div.col-sm-6
+                form(action="/teacherlist" method="post" id="filterTeacherListForm")
+                    div.form-group
+                        label(for='gender') Gender
+                        +myDropdown('gender', 'Select', genderOptions)
+                    div.form-group
+                        label(for='ethnicity') Ethnicity
+                        +myDropdown('ethnicity', 'Select', ethnicityOptions)
+                    div.form-group
+                        label(for='first_language') Language
+                        +myDropdown('first_language', 'Select', langOptions)
+                    div.form-group
+                        label(for='focus') Focus
+                        +myDropdown('focus', 'Select', focusOptions)
+                    button.btn(type="submit") Search
+                    button.btn(type="reset") Clear
+        
+            div.col-sm-6  
+                ul#teacherlist
+                    each user in userlist
+                        div.well.container
+                            div.row
+                                div.col-sm-4
+                                    strong #{user.last_name}, #{user.first_name} 
+                                    br
+                                    |#{user.focus}
+                                    br
+                                    a(href="mailto:#{user.email}")= user.email                           
+                                div.col-sm-8
+                                    br
+                                    br
+                                    //button(type='button' style='margin-left:1cm;' border-style='none' color='blue') Request Teacher
+                                    a(href="some page") Request Teacher
+    
+    //- ajax calls and teacher list controllers
+    script(src='js/teacherlist.js')
+        

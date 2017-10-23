@@ -143,11 +143,19 @@ function submitForm(req, res, next){
 
 function parseHours(form, day, currHours){
     var newHours = form[day];
-    for(i = 0; i < newHours.length; i++){
-        var hour = newHours[i];
-        var index = toIndex(hour);
+
+    if(typeof newHours === 'object'){
+        for(i = 0; i < newHours.length; i++){
+            var hour = newHours[i];
+            var index = toIndex(hour);
+            currHours[index] = true;
+        }
+    }
+    else{
+        var index = toIndex(newHours);
         currHours[index] = true;
     }
+
     return currHours;
 }
 
