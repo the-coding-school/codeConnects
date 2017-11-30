@@ -3,6 +3,9 @@ extends ../../node_modules/pug-bootstrap/_bootstrap
 block body
     include ../mixins/util
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    link(rel="stylesheet", href="https://unpkg.com/flatpickr/dist/flatpickr.min.css")
+    script(src="https://unpkg.com/flatpickr")
+
     -
         var ethnicityOptions = [
             'White', 
@@ -24,13 +27,21 @@ block body
             'Male',
             'Non-binary'
         ];
-        
+        var days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ];
+
     +myNavbar(1,0)
     a(href='/logout' class='btn btn-default btn-sm') Logout
     div.row.container
 
         div.col-sm-5.col-sm-offset-1
-
             h1 Keep Your Profile Updated
             p Students select teachers based on their profile information.
 
@@ -59,6 +70,23 @@ block body
                 div.form-group
                     label(for='employer') Current Institute (College / Place of Employment)
                     input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
+                div.form-group
+                    label(for='volunteer') How many hours are you willing to volunteer?
+                    input.form-control(type='number' placeholder='' name='volunteer')
+                div.form-group
+                    label(for='paid') How many hours are you willing to do paid teaching?
+                    input.form-control(type='number' placeholder='' name='paid')
+                div.form-group
+                    label(for='availability') Availability
+                    p
+                        |Input the time slots you are available to start a one hour lesson </br>(Pacific Time Zone UTC -7).
+                    each day in days
+                        div #{day}
+                        button.btn.col-sm-offset-1( type='button' onclick="timepicker('" + day +"')" ) +
+                        button.btn.col-sm-offset-1( type='button' onclick="clearDay('" + day + "')" ) Reset
+                        </br>
+                        label(for=day id=day)
+                        </br>
                 div.form-group
                     label(for='focus') Focus
                     +myDropdown('focus', 'Select below', focusOptions)
@@ -90,7 +118,7 @@ block body
                         +listItem("Your Bio", value)
                     when "approved"
                     when "paid"
-                    when "availability"
                         -break
                     default
-                        +capitalize(key, value)
+                        +default(key, value)
+

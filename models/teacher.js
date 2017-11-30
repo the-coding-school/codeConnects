@@ -22,15 +22,15 @@ var teacherModel = dynogels.define('teacherModel', {
             paid            : Joi.boolean(),
             bio             : Joi.string(),
             complete        : Joi.boolean(),
-            availability    : Joi.object().keys({
-                monday      : Joi.binary(),
-                tuesday     : Joi.binary(),
-                wednesday   : Joi.binary(),
-                thursday    : Joi.binary(),
-                friday      : Joi.binary(),
-                saturday    : Joi.binary(),
-                sunday      : Joi.binary(),
-            }),
+            paid            : Joi.number(),
+            volunteer       : Joi.number(),
+            monday      : Joi.array().items(Joi.boolean()).length(24),
+            tuesday     : Joi.array().items(Joi.boolean()).length(24),
+            wednesday   : Joi.array().items(Joi.boolean()).length(24),
+            thursday    : Joi.array().items(Joi.boolean()).length(24),
+            friday      : Joi.array().items(Joi.boolean()).length(24),
+            saturday    : Joi.array().items(Joi.boolean()).length(24),
+            sunday      : Joi.array().items(Joi.boolean()).length(24)
         },
 
     tableName: 'Teachers'

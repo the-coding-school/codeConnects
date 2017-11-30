@@ -1,8 +1,18 @@
+
+
 mixin listItem(key, value)
     ul #{key} : #{value}
 
-mixin capitalize(word, value)
-    ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
+mixin default(word, value)
+    //- check if the word is a day to be displayed
+    if(typeof value === 'object')
+            ul #{word[0].toUpperCase()}#{word.substr(1)}
+                each val, index in value
+                    if val
+                        ul= index + ':00'
+    //- Capitalize the word and move on
+    else
+        ul #{word[0].toUpperCase()}#{word.substr(1)} : #{value}
 
 mixin myDropdown(name, caption, items)
     .dropdown
@@ -19,6 +29,7 @@ mixin myDropdown(name, caption, items)
         script.
             $(document).ready(function () {
                 $('.option-#{name}').click(function(event) {
+                    event.preventDefault();
                     var selectedVal = event.target.text; 
                     var ddCaption = selectedVal + "&nbsp;<span class='caret'></span>" ;
                     $('#btn-#{name}').html(ddCaption);
@@ -53,3 +64,18 @@ mixin myNavbar(logout, teacherlist)
                                    li
                                       a(href='/logout') Logout
 
+script.
+    function timepicker(day){
+        var input = document.createElement('input');
+        input.type = "time";
+        input.step = 3600;
+        input.className = "form-control";
+        input.name = day;
+        var app = document.getElementById(day);
+        app.appendChild(input);
+    }
+
+script.
+    function clearDay(day){
+        $("#" + day).empty();
+    }
