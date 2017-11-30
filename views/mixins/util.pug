@@ -25,9 +25,11 @@ mixin myDropdown(name, caption, items)
                     $('input[name="#{name}"]').val(selectedVal);
                 });
             });
-mixin myNavbar()
+
+mixin myNavbar(logout, teacherlist)
     nav.navbar.navbar-default 
-                    .container-fluid
+                    .row.container
+                      .col-sm-12
                         .navbar-header
                             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
                                 span.sr-only Toggle navigation  
@@ -38,8 +40,16 @@ mixin myNavbar()
                         #navbar.navbar-collapse.collapse
                             ul.nav.navbar-nav
                                 li.active
-                                    a(href='#') Home
+                                    a(href='/') Home
+                                if (teacherlist == 1)
+                                   li
+                                      a(href='/teacherlist') Teachers
                                 li
                                     a(href='#') Link
                                 li 
                                     a(href='#') Link
+                            ul.nav.navbar-nav.navbar-right
+                                if(logout == 1)
+                                   li
+                                      a(href='/logout') Logout
+
