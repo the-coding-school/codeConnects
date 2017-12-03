@@ -33,9 +33,14 @@ module.exports = function(app, passport) {
         res.render('auth/signup.pug', { message: req.flash('signupMessage') });
     });
 
+    app.get('/signup_success', function(req, res){
+        //render successful signup page
+        res.render('auth/signup_success.pug');
+    })
+
     // process the signup form
     app.post('/signup', signupStoreCookie, passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
+        successRedirect : '/signup_success', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
