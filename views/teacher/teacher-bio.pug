@@ -1,0 +1,122 @@
+extends ../../node_modules/pug-bootstrap/_bootstrap
+
+block body
+    include ../mixins/util
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    link(rel="stylesheet", href="https://unpkg.com/flatpickr/dist/flatpickr.min.css")
+    script(src="https://unpkg.com/flatpickr")
+
+    -
+        var ethnicityOptions = [
+            'White', 
+            'Hispanic/Latino', 
+            'Black or African-American', 
+            'Asian', 
+            'American Indian or Alaska Native',
+            'Middle Eastern or North African',
+            'Native Hawaiian or other Pacific Islander',
+            'Not Listed'
+        ];
+        var focusOptions = [
+            'Artificial Intelligence', 
+            'Robotics', 
+            'Web Technologies'
+        ];
+        var genderOptions = [
+            'Female',
+            'Male',
+            'Non-binary'
+        ];
+        var days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ];
+
+    a(href='/logout' class='btn btn-default btn-sm') Logout
+    div.row.container
+        div.col-sm-5.col-sm-offset-1
+            h1 Keep Your Profile Updated
+            p Students select teachers based on their profile information.
+
+            form(action="/teacher-bio" method="post")
+                div.form-group
+                    label(for='first_name') First Name
+                    input.form-control(type='text' placeholder='Arya' name='first_name')
+                div.form-group
+                    label(for='last_name') Last Name
+                    input.form-control(type='text' placeholder='Stark' name='last_name')
+                div.form-group
+                    label(for='first_language') First Language
+                    input.form-control(type='text' placeholder='English' name='first_language')
+                div.form-group
+                    label(for='second_language') Second Language (if applicable)
+                    input.form-control(type='text' placeholder='' name='second_language')
+                div.form-group
+                    label(for='gender') Gender
+                    +myDropdown('gender', 'Select below', genderOptions)
+                div.form-group
+                    label(for='ethnicity') Ethnicity/Race
+                    +myDropdown('ethnicity', 'Select below', ethnicityOptions)
+                div.form-group
+                    label(for='location') Location
+                    input.form-control(type='text' placeholder='Los Angeles, CA United States' name='location')
+                div.form-group
+                    label(for='employer') Current Institute (College / Place of Employment)
+                    input.form-control(type='text' placeholder='e.g. The Coding School' name='employer')
+                div.form-group
+                    label(for='volunteer') How many hours are you willing to volunteer?
+                    input.form-control(type='number' placeholder='' name='volunteer')
+                div.form-group
+                    label(for='paid') How many hours are you willing to do paid teaching?
+                    input.form-control(type='number' placeholder='' name='paid')
+                div.form-group
+                    label(for='availability') Availability
+                    p
+                        |Input the time slots you are available to start a one hour lesson </br>(Pacific Time Zone UTC -7).
+                    each day in days
+                        div #{day}
+                        button.btn.col-sm-offset-1( type='button' onclick="timepicker('" + day +"')" ) +
+                        button.btn.col-sm-offset-1( type='button' onclick="clearDay('" + day + "')" ) Reset
+                        </br>
+                        label(for=day id=day)
+                        </br>
+                div.form-group
+                    label(for='focus') Focus
+                    +myDropdown('focus', 'Select below', focusOptions)
+                div.form-group
+                    label(for='bio') Tell us about why yourself (projects, ares of focus, internships)
+                    input.form-control(type='text' name='bio')
+                button.btn.btn-warning.btn-lg(type='submit') Update Profile
+
+        div.col-sm-5.col-sm-offset-1
+
+            h1 Current Profile
+            each key, index in keys
+                - var value = values[index]
+                case key
+                    when "complete"
+                        if value
+                            alert("Your Profile is complete. You are now searchable by students.")
+                        else
+                            alert("Your Profile is incomplete. You are not searchable by students.")
+                    when "first_name"
+                        +listItem("First Name", value)
+                    when "last_name"
+                        +listItem("Last Name", value)
+                    when "first_language"
+                        +listItem("First Language", value)
+                    when "employer"
+                        +listItem("Employer / University", value)
+                    when "bio"
+                        +listItem("Your Bio", value)
+                    when "approved"
+                    when "paid"
+                        -break
+                    default
+                        +default(key, value)
+

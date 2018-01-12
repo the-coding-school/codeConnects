@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 var passport = require('passport');
@@ -17,7 +18,6 @@ dynogels.AWS.config.update({region: "us-west-2", endpoint: "https://dynamodb.us-
 require('./config/passport')(passport);
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -29,7 +29,7 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
@@ -39,10 +39,9 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-    secret: 'codeconnectssupersecretsessionpass',
-    resave: true,
-    saveUninitialized: true
+app.use(cookieParser());
+app.use(cookieSession({
+    secret: 'codeconnectssupersecretsessionpass'
 }));
 
 app.use(passport.initialize());
@@ -50,9 +49,9 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use('/', index);
-app.use('/users', users);
 var auth = require('./routes/auth')(app, passport);
-
+var profile = require('./routes/profile')(app, passport);
+var users = require('./routes/users')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
