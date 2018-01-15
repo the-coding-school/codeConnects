@@ -22,3 +22,11 @@ If you are part of the front end team, look to Andy for more specific direction 
 you should be learning.
 
 Good Luck and Welcome to the Team~
+
+Front End Development
+-- Dependencies
+   React
+   React Dom
+   Webpack
+   Babel
+   
