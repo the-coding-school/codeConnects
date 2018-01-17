@@ -7,17 +7,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 export default class App extends Component {
   render() {
     return (
-      <div>
+	<BrowserRouter>
 	<Header/>
 
-	<BrowserRouter>
 	    <Navbar />
       		<Switch>
 	    	</Switch>
-	</BrowserRouter>
 	<Footer />
-
-      </div>
+	</BrowserRouter>
     );
   }
 }
