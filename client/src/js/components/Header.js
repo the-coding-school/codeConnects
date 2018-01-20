@@ -5,7 +5,7 @@ export default class Header extends React.Component{
     <div>
         <h1>Code Connects</h1>
         <button>Log in</button>
-      <button>Donate</button>
+        <button>Donate</button>
     </div>
     );
   }
