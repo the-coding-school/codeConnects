@@ -2,7 +2,7 @@ const path = require('path');
 
 //Used to inject scripts and css files into index.html
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin'); 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 //Paths for development
 const paths = {
@@ -46,12 +46,25 @@ module.exports = {
 	    use: [
 		'file-loader',
 	    ],
-	}
+	},
+  {
+    test: /\.scss$/,
+           use: [{
+               loader: "style-loader" // creates style nodes from JS strings
+           }, {
+               loader: "css-loader" // translates CSS into CommonJS
+           }, {
+               loader: "sass-loader" // compiles Sass to CSS
+           }]
+  }
     ],
   },
 
 //Enable imports in react without extnesion
   resolve: {
+    alias:{
+      "Components": path.resolve(__dirname, "client/src/js/components")
+    },
     extensions: ['.js', '.jsx'],
   },
 };

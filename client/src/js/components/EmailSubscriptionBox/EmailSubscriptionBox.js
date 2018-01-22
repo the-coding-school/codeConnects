@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class EmailSubscriptionBox extends Component {
+export default class EmailSubscriptionBox extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 'Enter Your Email'};
@@ -32,5 +32,3 @@ class EmailSubscriptionBox extends Component {
   }
 
 }
-
-export default EmailSubscriptionBox;

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import Header from './components/Header' ;
-import Footer from './components/Footer' ;
+import Header from 'Components/Header' ;
+import Footer from 'Components/Footer' ;
 
 //These will each be their own views probably
-import Home from './components/Home';
-import Navbar from './components/Navbar'
+import Home from 'Components/Home';
+import Navbar from 'Components/Navbar'
 
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-
+import "./app.scss"
 export default class App extends Component {
   render() {
     return (
 	<BrowserRouter>
-  <div>
+  <div class="AppContainer">
 	 <Header />
 	    <Navbar />
       <Switch>
