@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 
+import './PagePreviewBoxDescription.scss'
 export default class PagePreviewBoxDescription extends Component {
 
   render(){
-    return (<p>{this.props.children}</p>);
+    return (
+      <div className="PagePreviewBoxDescriptionContainer">
+        <p className="PagePreviewBoxDescriptionBody"> {this.props.children}</p>
+      </div>
+    );
   }
 
 }

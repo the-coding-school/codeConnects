@@ -25,7 +25,7 @@ export default class PagePreviewBox extends Component {
       <div className="PagePreviewBoxTextContainer">
         { header && <PagePreviewBoxHeader>{header}</PagePreviewBoxHeader> }
         { description && <PagePreviewBoxDescription>{description}</PagePreviewBoxDescription>}
-        { link && <PagePreviewBoxLink href={link}>{linkText}</PagePreviewBoxLink>}
+        { link && <PagePreviewBoxLink to={link}>{linkText}</PagePreviewBoxLink>}
       </div>
     </div>
     );

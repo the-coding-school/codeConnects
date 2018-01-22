@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
+import './PagePreviewBoxHeader.scss';
 export default class PagePreviewBoxHeader extends Component {
   render(){
-    return (<h4>{this.props.children}</h4>);
+    return (<h3 className="PagePreviewBoxHeader">{this.props.children}</h3>);
   }
 }

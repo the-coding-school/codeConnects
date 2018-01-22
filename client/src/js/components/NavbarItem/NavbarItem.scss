@@ -1,0 +1,17 @@
+.NavbarItemContainer{
+  background-color: #344258;
+  margin-right:0.1em;
+  color:white;
+  width:14%;
+  justify-content:center;
+  display:flex;
+  flex-direction:row;
+}
+
+.NavbarItemLink{
+  color:white;
+  text-decoration:none;
+  align-self:center;
+  vertical-align: middle;
+  padding:0.5em;
+}
