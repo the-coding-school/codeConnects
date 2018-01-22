@@ -16,7 +16,7 @@ export default class App extends Component {
   render() {
     return (
 	<BrowserRouter>
-  <div class="AppContainer">
+  <div className="AppContainer">
 	 <Header />
 	    <Navbar />
       <Switch>

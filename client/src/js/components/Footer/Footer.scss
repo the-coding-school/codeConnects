@@ -1,5 +1,24 @@
+
 .FooterContainer{
-  margin:1em;
-  display:block;
-  align-self: center;
+  margin-top:2em;
+  height:85%;
+  width:100%;
+  color:white;
+  border-top:0.8em solid;
+  border-top-color:#AAC5CB;
+  background-color: #344258;
+  display:flex;
+  flex-direction: left;
+  justify-content:flex-start;
+}
+
+.FooterContainer > *{
+  flex:1 100%;
+  padding:2em;
+}
+.FooterTextContainer{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
 }
