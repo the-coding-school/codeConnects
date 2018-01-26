@@ -63,8 +63,10 @@ module.exports = {
 //Enable imports in react without extnesion
   resolve: {
     alias:{
+      "Assets":path.resolve(__dirname, "client/src/assets/"),
+      "Images":path.resolve(__dirname, "client/src/assets/images"),
       "Components": path.resolve(__dirname, "client/src/js/components")
     },
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx',],
   },
 };

@@ -1,5 +1,5 @@
 .PagePreviewBoxContainer{
-  padding-top:5px;
+  padding-top:0;
   width:80%;
   margin:auto;
   margin-top:1em;
@@ -18,7 +18,10 @@
 }
 
 .PagePreviewBoxTextContainer{
+  padding-right:5%;
   width:60%;
-
   border-top-color: #9C9C9C;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }

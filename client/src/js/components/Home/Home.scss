@@ -1,3 +1,39 @@
+.HomePageContainer{
+  display:flex;
+  flex-direction: column;
+}
+
+.HomePageDescription{
+  color:#344258;
+  font-size:1.5em;
+}
+
+.HomePageDescriptionContainer{
+  text-align: center;
+}
+
+.CirclePicturesContainer{
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  margin-bottom:1em;
+}
+
 .PagePreviewBoxesContainer{
   border:none;
+}
+
+
+.EmailSubscriptionBoxContainer{
+  background-color:#344258;
+  text-align: center;
+  margin-top:1em;
+  margin-bottom:1em;
+  padding-top:1em;
+  padding-bottom:1em;
+}
+
+.EmailSubscriptionBoxDescription{
+  color:white;
+  font-size:1.5em;
 }

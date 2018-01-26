@@ -8,7 +8,6 @@ import Footer from 'Components/Footer' ;
 import Home from 'Components/Home';
 import Navbar from 'Components/Navbar'
 
-
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import "./app.scss"

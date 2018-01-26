@@ -6,6 +6,9 @@ import './PagePreviewBoxLink.scss'
 export default class PagePreviewBoxLink extends Component {
   render(){
     const {to} = this.props
-    return (<Link className="PagePreviewBoxLinkBody" to={to}>Learn more</Link>);
+    return (
+      <div className="PagePreviewBoxLinkContainer">
+      <Link className="PagePreviewBoxLinkBody" to={to}>Learn more</Link>
+      </div>);
   }
 }

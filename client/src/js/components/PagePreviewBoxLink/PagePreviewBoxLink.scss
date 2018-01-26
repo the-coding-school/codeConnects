@@ -1,3 +1,9 @@
+.PagePreviewBoxLinkContainer{
+  display:flex;
+  flex-direction:row;
+  justify-content: flex-end;
+}
+
 .PagePreviewBoxLinkBody{
   color:#EA493D;
   text-decoration: none;

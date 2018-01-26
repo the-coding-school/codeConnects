@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
+import './EmailSubscriptionBox.scss'
 export default class EmailSubscriptionBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'Enter Your Email'};
+    this.state = {value:""};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,20 +14,19 @@ export default class EmailSubscriptionBox extends Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    alert('An email address was submitted: ' + this.state.value);
     event.preventDefault();
   }
 
   render() {
     return (
+      <div className="EmailSubscriptionFormContainer">
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Keep up to date with our latest news, events and calendar! Subscribe to our Newsletter.
-
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+          <input className="EmailSubscriptionBox" type="email" placeholder="Enter Your Email" onChange={this.handleChange} />
+          <input className="EmailSubscriptionBox EmailSubscriptionBoxButton" type="submit" value="Subscribe" />
       </form>
+      </div>
+
     );
   }
 

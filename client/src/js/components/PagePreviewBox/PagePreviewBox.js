@@ -20,7 +20,7 @@ export default class PagePreviewBox extends Component {
     return (
     <div className="PagePreviewBoxContainer">
       <div className="PagePreviewBoxImageContainer">
-        { image && <PagePreviewBoxImage src={image}></PagePreviewBoxImage>}
+        { image && <PagePreviewBoxImage image={image}></PagePreviewBoxImage>}
       </div>
       <div className="PagePreviewBoxTextContainer">
         { header && <PagePreviewBoxHeader>{header}</PagePreviewBoxHeader> }
